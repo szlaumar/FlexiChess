@@ -21,3 +21,8 @@ nbproject/private/
 *.swp
 *.DS_Store
 *.lock
+
+# IntelliJ | IDEA
+.idea/
+FlexiChess.iml
+out/
