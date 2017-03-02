@@ -6,51 +6,44 @@
 package nullpointerexception.flexichess;
 
 public class ChessBoard {
-    private int rows;
-    private int columns;
-    private int[][] board;
+    int[][] board;
     
-    public ChessBoard(int rows, int columns) {
-        this.rows = rows;
-        this.columns = columns;
-        
-        board = new int[rows][columns];
+    
+    public ChessBoard(int column, int row){
+        board = new int[row][column];
     }
     
-    public int rows() { return rows; }
-    
-    public int columns() { return columns; }
-    
-    public void putPiece(int piece, char column, int row) {
-        board[row][column - 'a'] = piece;
+    public void putPiece(int piece, char column, int row){
+        board[rows() - row][column - 'a'] = piece;
     }
     
-    public int pieceAt(char column, int row) {
-        return board[row][column - 'a'];
+    int columns(){
+        return board[0].length;
     }
-
+    
+    int rows(){
+        return board.length;
+    }
+    
+    public int pieceAt(char column, int row){
+        return board[rows() - row][column - 'a'];
+    }
+    
     @Override
-    public String toString() {
+    public String toString(){
         int radky = board.length;
         int sloupce = board[0].length;
         StringBuffer buffer = new StringBuffer();
 
-        buffer.append("    ");
-
-        for (int i = 0; i < sloupce; i++) {
-            buffer.append(i);
-            if (i == (sloupce - 1)) {
-                buffer.append(" \n");
-            } else {
-                buffer.append("   ");
-            }
+        buffer.append("   ┌");
+        for (int i = 0; i < sloupce - 1; i++) {
+            buffer.append("───┬");
         }
-        
-        buffer = topEdgeToString(buffer);
+        buffer.append("───┐\n");
 
         for (int i = 0; i < (radky * 2) - 1; i++) {
             if (i % 2 == 0) {
-                buffer.append(i / 2);
+                buffer.append(String.format("%2d", radky - i / 2));
                 buffer.append(" │");
                 for (int j = 0; j < sloupce; j++) {
                     buffer.append(" ");
@@ -63,36 +56,29 @@ public class ChessBoard {
                 }
                 buffer.append("\n");
             } else {
-                buffer.append("  ├");
+                buffer.append("   ├");
                 for (int j = 0; j < sloupce - 1; j++) {
                     buffer.append("───┼");
                 }
                 buffer.append("───┤\n");
             }
         }
-        buffer = bottomEdgeToString(buffer);
-        
-        return buffer.toString();
-    }
-    
-    private StringBuffer bottomEdgeToString(StringBuffer buffer) {
-        buffer.append("  └");
-        for (int i = 0; i < columns - 1; i++) {
+        buffer.append("   └");
+        for (int i = 0; i < sloupce - 1; i++) {
             buffer.append("───┴");
         }
-        buffer.append("───┘");
+        buffer.append("───┘\n");
         
-        return buffer;
-    }
-    
-    private StringBuffer topEdgeToString(StringBuffer buffer) {
-        buffer.append("  ┌");
-        for (int i = 0; i < columns - 1; i++) {
-            buffer.append("───┬");
+        buffer.append("     ");
+
+        for (int i = 0; i < sloupce; i++) {
+            buffer.append((char)('a' + i));
+            if (i == (sloupce - 1)) {
+                buffer.append(" ");
+            } else {
+                buffer.append("   ");
+            }
         }
-        buffer.append("───┐\n");
-        
-        return buffer;
+        return buffer.toString();
     }
-    
 }
