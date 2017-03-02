@@ -5,6 +5,12 @@
  */
 package nullpointerexception.flexichess;
 
+/**
+ * 
+ * @author Drabek Jan
+ * @author Stastny Martin
+ * @author Szlauer Martin
+ */
 public class ChessBoard {
     int[][] board;
     
@@ -13,15 +19,11 @@ public class ChessBoard {
         board = new int[row][column];
     }
     
-    public void putPiece(int piece, char column, int row){
-        board[rows() - row][column - 'a'] = piece;
-    }
-    
-    int columns(){
+    public int columns(){
         return board[0].length;
     }
     
-    int rows(){
+    public int rows(){
         return board.length;
     }
     
@@ -29,56 +31,81 @@ public class ChessBoard {
         return board[rows() - row][column - 'a'];
     }
     
+    public void putPiece(int piece, char column, int row){
+        board[rows() - row][column - 'a'] = piece;
+    }
+    
     @Override
     public String toString(){
-        int radky = board.length;
-        int sloupce = board[0].length;
+        int rows = board.length;
         StringBuffer buffer = new StringBuffer();
 
+        bufferAppendTopBorder(buffer);
+
+        // For every line print either content row or deviding row
+        for (int i = 0; i < (rows * 2) - 1; i++) {
+            if (i % 2 == 0) {
+                bufferAppendContentRow(buffer, i);
+            } else {
+                bufferAppendDividingRow(buffer);
+            }
+        }
+        
+        bufferAppendBottomBorder(buffer);
+        bufferAppendColumnsNotation(buffer);
+        
+        return buffer.toString();
+    }
+    
+    private void bufferAppendTopBorder(StringBuffer buffer) {
         buffer.append("   ┌");
-        for (int i = 0; i < sloupce - 1; i++) {
+        for (int i = 0; i < board[0].length - 1; i++) {
             buffer.append("───┬");
         }
         buffer.append("───┐\n");
-
-        for (int i = 0; i < (radky * 2) - 1; i++) {
-            if (i % 2 == 0) {
-                buffer.append(String.format("%2d", radky - i / 2));
-                buffer.append(" │");
-                for (int j = 0; j < sloupce; j++) {
-                    buffer.append(" ");
-                    if (board[i / 2][j] != 0) {
-                        buffer.append(board[i / 2][j]);
-                    } else {
-                        buffer.append(" ");
-                    }
-                    buffer.append(" │");
-                }
-                buffer.append("\n");
-            } else {
-                buffer.append("   ├");
-                for (int j = 0; j < sloupce - 1; j++) {
-                    buffer.append("───┼");
-                }
-                buffer.append("───┤\n");
-            }
-        }
+    }
+    
+    private void bufferAppendBottomBorder(StringBuffer buffer) {
         buffer.append("   └");
-        for (int i = 0; i < sloupce - 1; i++) {
+        for (int i = 0; i < board[0].length - 1; i++) {
             buffer.append("───┴");
         }
         buffer.append("───┘\n");
-        
+    }
+    
+    private void bufferAppendColumnsNotation(StringBuffer buffer) {
         buffer.append("     ");
 
-        for (int i = 0; i < sloupce; i++) {
+        for (int i = 0; i < board[0].length; i++) {
             buffer.append((char)('a' + i));
-            if (i == (sloupce - 1)) {
+            if (i == (board[0].length - 1)) {
                 buffer.append(" ");
             } else {
                 buffer.append("   ");
             }
         }
-        return buffer.toString();
+    }
+    
+    private void bufferAppendContentRow(StringBuffer buffer, int row) {
+        // print row notation
+        buffer.append(String.format("%2d │", board.length - row / 2));
+        
+        // print each column
+        for (int col = 0; col < board[0].length; col++) {
+            if (board[row / 2][col] != 0) {
+                buffer.append(String.format(" %d │", board[row / 2][col]));
+            } else {
+                buffer.append("   │");
+            }
+        }
+        buffer.append("\n");
+    }
+    
+    private void bufferAppendDividingRow(StringBuffer buffer) {
+        buffer.append("   ├");
+        for (int col = 0; col < board[0].length - 1; col++) {
+            buffer.append("───┼");
+        }
+        buffer.append("───┤\n");
     }
 }
