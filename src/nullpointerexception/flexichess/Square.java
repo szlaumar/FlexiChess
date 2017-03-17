@@ -25,6 +25,19 @@ public class Square {
     }
     
     /**
+     * Vytvoří čtverec s souřadnicemi danými jako retezec.
+     * Očekává zvalidovaný vstup.
+     * 
+     * @param str    Coordinates string like "a5", "c12" etc.
+     */
+    public Square(String str){
+        m_column = str.charAt(0);
+        
+        str = str.substring(1);
+        m_row = Integer.parseInt(str);
+    }
+    
+    /**
      * Vrátí písmeno sloupce daného čtverce.
      * 
      * @return  Column letter.
