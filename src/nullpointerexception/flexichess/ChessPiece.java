@@ -7,7 +7,7 @@ package nullpointerexception.flexichess;
  * @author Stastny Martin
  * @author Szlauer Martin
  */
-public class ChessPiece {
+public abstract class ChessPiece {
     
     /**
      * Defines ChessPiece/chess figure color and assigned sign for printing.
@@ -42,19 +42,45 @@ public class ChessPiece {
      *  R   rook            <br>
      *  Q   queen           <br>
      */
-    private final char  m_letter;
+    private char  m_letter;
     private final Color m_color;
     private Square      m_square = null;
-    
+    private final ChessBoard  m_board;
+ 
     /**
-     * Vytvoří figurku označenou písmenem letter s barvou color.
+     * Chráněný konstruktor, který vytvoří figurku pro danou šachovnici.
      * 
-     * @param letter    Letter which describes chess figure by chess notation.    
+     * Figurka začíná mimo šachovnici, ovšem ne jako zajatá.
+     * Pouze nestojí na žádném políčku.
+     * 
+     * @param board     Board which is the piece assigned to.
      * @param color     Color of figure. BLACK or WHITE.
      */
-    public ChessPiece(char letter, Color color) {
-        m_letter = letter;
+    protected ChessPiece(ChessBoard board, ChessPiece.Color color) {
+        m_board = board;
         m_color = color;
+        board.addNewChessPiece(this);
+    }
+    
+    /**
+     * Chráněný konstruktor, který vytvoří figurku na daném políčku
+     * na dané šachovnici.
+     * 
+     * Throws IllegalStateException if there is already a ChessPiece
+     * on that square.s
+     * 
+     * @param board     Board which is the piece assigned to.
+     * @param color     Color of figure. BLACK or WHITE.
+     * @param column
+     * @param row 
+     */
+    protected ChessPiece(ChessBoard board, ChessPiece.Color color,
+            char column, int row) {
+        m_board = board;
+        m_color = color;
+        setPosition(column, row);
+        board.addNewChessPiece(this);
+        board.putPiece(column, row, this);
     }
 
     /**
@@ -91,11 +117,25 @@ public class ChessPiece {
      * 
      * @return Square/board location.
      */
-    public Square square(){
+    public Square position(){
         if( this.isOffBoard() )
             throw new IllegalStateException("ChessPiece is off board!");
         else
             return m_square;
+    }
+
+    /**
+     * Vrací šachovnici, se kterou je tato figurka spojena.
+     * 
+     * If the ChessPiece is not linked to any board, NullPointerException thrown.
+     * 
+     * @return 
+     */
+    public ChessBoard board() {
+        if (m_board == null)
+            throw new NullPointerException("ChessPiece not linked to any board.");
+        
+        return m_board;
     }
 
     /**

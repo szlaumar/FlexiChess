@@ -1,5 +1,6 @@
 package nullpointerexception.flexichess;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
@@ -14,6 +15,7 @@ import java.util.Stack;
 public class ChessBoard {
     private ChessPiece[][] m_board;
     private Stack<ChessPiece> capturedPieces;
+    private HashSet<ChessPiece> allPieces;
     
     /**
      * Vytvoří šachovnici o zadaném počtu sloupců a řádků.
@@ -24,6 +26,7 @@ public class ChessBoard {
     public ChessBoard(int column, int row){
         m_board = new ChessPiece[column][row];
         capturedPieces = new Stack<>();
+        allPieces = new HashSet<>();
     }
 
     /**
@@ -71,15 +74,12 @@ public class ChessBoard {
      * @param row       Row number.
      * @param piece     ChessPiece/chess figure.
      */
-    public void putPiece(char column, int row, ChessPiece piece){
-        try {
-            pieceAt(column, row);
-        } catch (IllegalStateException fieldAvailable) {
-            m_board[column - 'a'][row - 1] = piece;
-            return;
-        }
+    public void putPiece(char column, int row, ChessPiece piece) {
+        if (!isEmptyAt(column, row))
+            throw new IllegalStateException("Can't move chess piece.");
         
-        throw new IllegalStateException("No chess piece on given coordinates.");
+        piece.setPosition(column, row);
+        m_board[column - 'a'][row - 1] = piece;
     }
 
     @Override
@@ -133,23 +133,8 @@ public class ChessBoard {
             throw new IllegalStateException("Can't move chess piece.");
         
         ChessPiece chessPiece = m_board[fromColumn][fromRow];
-        moveTo(chessPiece, toColumn, toRow);
+        putPiece(toColumn, toRow, chessPiece);
         m_board[fromColumn - 'a'][fromRow - 1] = null;
-    }
-    
-    /**
-     * Přesune figurku na danné políčko.
-     * 
-     * @param chessPiece
-     * @param column
-     * @param row 
-     */
-    private void moveTo(ChessPiece chessPiece, char column, int row) {
-        if (!isEmptyAt(column, row))
-            throw new IllegalStateException("Can't move chess piece.");
-        
-        chessPiece.setPosition(column, row);
-        m_board[column - 'a'][row - 1] = chessPiece;
     }
     
     /**
@@ -187,7 +172,7 @@ public class ChessBoard {
             throw new IllegalStateException("Square is not empty.");
         
         ChessPiece chessPiece = capturedPieces.pop();
-        moveTo(chessPiece, column, row);
+        putPiece(column, row, chessPiece);
     }
     
     /**
@@ -218,5 +203,15 @@ public class ChessBoard {
                 list.add(piece);
         });
         return list;
+    }
+    
+    /**
+     * Add newly created ChessPuece to the pool of all pieces assigned to this
+     * board.
+     * 
+     * @param piece 
+     */
+    public void addNewChessPiece(ChessPiece piece) {
+        allPieces.add(piece);
     }
 }
