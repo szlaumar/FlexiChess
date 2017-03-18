@@ -36,13 +36,14 @@ public abstract class ChessPiece {
      * <p>
      * 
      * CHESS FIGURE KINDS:  <br>
-     *  P   pawn            <br>
+     *  p   pawn            <br>
      *  N   knight          <br>
      *  B   bishop          <br>
      *  R   rook            <br>
      *  Q   queen           <br>
+     *  K   king            <br>
      */
-    private char  m_letter;
+    protected char  m_letter;
     private final Color m_color;
     private Square      m_square = null;
     private final ChessBoard  m_board;
@@ -97,9 +98,7 @@ public abstract class ChessPiece {
      * 
      * @return ChessPiece/chess figure letter.
      */
-    public char letter(){
-        return m_letter;
-    }
+    public abstract char letter();
     
     /**
      * Vrátí symbol pro figurku, například +A, -B a podobně, viz zadání úkolu.
