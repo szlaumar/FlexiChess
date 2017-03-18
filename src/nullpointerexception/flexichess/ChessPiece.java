@@ -105,10 +105,22 @@ public class ChessPiece {
      * 
      * @param square Square where to put ChessPiece/chess figure.
      */
-    public void setSquare(Square square ){
+    public void setPosition(Square square ){
         if(square == null)
             throw new NullPointerException("Can't assign null position on board.");
         m_square = square;
+    }
+    
+    /**
+     * Nastaví figurce čtverec, na kterém má stát.
+     * 
+     * Pokud je paramter null vyhodí výjimku NullPointerException
+     * 
+     * @param column
+     * @param row 
+     */
+    public void setPosition(char column, int row){
+        setPosition(new Square(column, row));
     }
 
     /**
