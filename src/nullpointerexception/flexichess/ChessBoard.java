@@ -23,6 +23,7 @@ public class ChessBoard {
      */
     public ChessBoard(int column, int row){
         m_board = new ChessPiece[column][row];
+        capturedPieces = new Stack<>();
     }
 
     /**
@@ -133,7 +134,7 @@ public class ChessBoard {
         
         ChessPiece chessPiece = m_board[fromColumn][fromRow];
         moveTo(chessPiece, toColumn, toRow);
-        m_board[fromColumn][fromRow] = null;
+        m_board[fromColumn - 'a'][fromRow - 1] = null;
     }
     
     /**
@@ -148,7 +149,7 @@ public class ChessBoard {
             throw new IllegalStateException("Can't move chess piece.");
         
         chessPiece.setPosition(column, row);
-        m_board[column][row] = chessPiece;
+        m_board[column - 'a'][row - 1] = chessPiece;
     }
     
     /**
@@ -165,7 +166,7 @@ public class ChessBoard {
         if (isEmptyAt(column, row))
             throw new IllegalStateException("Square is empty.");
         
-        ChessPiece chessPiece = m_board[column][row];
+        ChessPiece chessPiece = m_board[column - 'a'][row - 1];
         chessPiece.setOffBoard();
         capturedPieces.add(chessPiece);
         

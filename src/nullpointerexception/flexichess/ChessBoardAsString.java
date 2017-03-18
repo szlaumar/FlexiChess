@@ -41,6 +41,7 @@ public class ChessBoardAsString {
         appendBottomBorder(sb);
 
         appendColumnsNotation(sb);
+        appendCapturedPiecesInfo(sb);
         
         return sb.toString();
     }
@@ -86,7 +87,24 @@ public class ChessBoardAsString {
         sb.append("     ");
         for (int i = 0; i < m_chessBoard.columns() - 1; i++)
             sb.append((char)('a' + i)).append("   ");
-        sb.append((char)('a' + m_chessBoard.columns() - 1)).append(" ");        
+        sb.append((char)('a' + m_chessBoard.columns() - 1)).append(" \n");        
     }
 
+    private void appendCapturedPiecesInfo(StringBuilder sb) {
+        appendCapturedPiecesList(sb, ChessPiece.Color.WHITE);
+        sb.append("\n");
+        appendCapturedPiecesList(sb, ChessPiece.Color.BLACK);
+    }
+    
+    private void appendCapturedPiecesList(StringBuilder sb,
+            ChessPiece.Color color) {
+        if (color == ChessPiece.Color.WHITE)
+            sb.append("W").append(color.getSign()).append(":");
+        else
+            sb.append("B").append(color.getSign()).append(":");
+        
+        m_chessBoard.capturedPieces(color).forEach((piece) -> {
+            sb.append(" ").append(piece.letter());
+        });
+    }
 }
