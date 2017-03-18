@@ -8,7 +8,7 @@ package nullpointerexception.flexichess;
  * @author Szlauer Martin
  */
 public class ChessBoard {
-    private Square[][] m_board;
+    private ChessPiece[][] m_board;
     
     /**
      * Vytvoří šachovnici o zadaném počtu sloupců a řádků.
@@ -17,13 +17,7 @@ public class ChessBoard {
      * @param row       Number of m_board rows.
      */
     public ChessBoard(int column, int row){
-
-        // Initialization of array
-        m_board = new Square[column][row];
-
-        for (int i = 0; i < column; i++)
-            for (int j = 0; j < row; j++)
-                m_board[i][j] = new Square((char)('a' + i), j);
+        m_board = new ChessPiece[column][row];
     }
 
     /**
@@ -54,7 +48,12 @@ public class ChessBoard {
      * @return          ChessPiece/chess figure.
      */
     public ChessPiece pieceAt(char column, int row){
-        return m_board[column - 'a'][row - 1].piece();
+        ChessPiece piece = m_board[column - 'a'][row - 1];
+        
+        if( piece == null )
+            throw new IllegalStateException("No chess piece on given coordinates.");
+        else
+            return piece;
     }
 
     /**
@@ -67,7 +66,14 @@ public class ChessBoard {
      * @param piece     ChessPiece/chess figure.
      */
     public void putPiece(char column, int row, ChessPiece piece){
-        m_board[column - 'a'][row - 1].putPiece(piece);
+        try {
+            pieceAt(column, row);
+        } catch (IllegalStateException fieldAvailable) {
+            m_board[column - 'a'][row - 1] = piece;
+            return;
+        }
+        
+        throw new IllegalStateException("No chess piece on given coordinates.");
     }
 
     @Override
