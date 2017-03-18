@@ -9,9 +9,8 @@ package nullpointerexception.flexichess;
  */
 public class Square {
     
-    private final char  m_column;
-    private final int   m_row;
-    private ChessPiece  m_piece = null;
+    public final char  column;
+    public final int   row;
     
     /**
      * Vytvoří čtverec s danými souřadnicemi.
@@ -20,8 +19,8 @@ public class Square {
      * @param row       Row number.
      */
     public Square(char column, int row){
-        m_column = column;
-        m_row    = row;
+        this.column = column;
+        this.row    = row;
     }
     
     /**
@@ -31,84 +30,51 @@ public class Square {
      * @param str    Coordinates string like "a5", "c12" etc.
      */
     public Square(String str){
-        m_column = str.charAt(0);
+        column = str.charAt(0);
         
         str = str.substring(1);
-        m_row = Integer.parseInt(str);
+        row = Integer.parseInt(str);
     }
-    
+
     /**
-     * Vrátí písmeno sloupce daného čtverce.
-     * 
-     * @return  Column letter.
-     */
-    public char column(){
-        return m_column;
-    }
-    
-    /**
-     * Vrátí číslo řádku daného čtverce.
-     * 
-     * @return  Row number.
-     */
-    public int row(){
-        return m_row;
-    }
-    
-    /**
-     * Vrátí figurku na tomto čtverci. 
-     * 
-     * Pokud je čtverec prázný, vyhodí výjimku IllegalStateException.
-     * 
-     * @return  ChessPiece/chess figure.
-     */
-    public ChessPiece piece(){
-        if( this.isEmpty() )
-            throw new IllegalStateException("Square is empty!");
-        else
-            return m_piece;
-    }
-    
-    /**
-     * Postaví figurku na tento čtverec. 
-     * 
-     * Figurce se tak zároveň nastaví tento čtverec jak ten, na kterém stojí. 
-     * Pokud už na čtverci nějaká figurka stojí, vyhodí výjimku IllegalStateException.
-     * 
-     * @param piece  ChessPiece/chess figure.
-     */
-    public void putPiece(ChessPiece piece){
-        if( m_piece != null)
-            throw new IllegalStateException("Square isn't empty!");
-        m_piece = piece;
-        m_piece.setSquare(this);
-    }
-    
-    /**
-     * Pravda, je-li čtverec prázdný (bez figurky).
-     * 
-     * @return True if square hasn't assigned ChessPiece/chess figure.
-     */
-    public boolean isEmpty(){
-        return null == m_piece;
-    }
-    
-    /**
-     * Odstraní ze čtverce figurku a vrátí ji jako výsledek volání, 
-     * pokud na něm nějaká stojí. 
-     * 
-     * Figurka se tím ocitne mimo šachovnici. 
-     * Pokud je čtverec prázný, vyhodí výjimku IllegalStateException.
+     * HashCode se vypočítává z obou atributů (column, row).
      * 
      * @return 
      */
-    public ChessPiece empty(){
-        ChessPiece tmp_piece = piece();
-        tmp_piece.setOffBoard();
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 59 * hash + this.column;
+        hash = 59 * hash + this.row;
+        return hash;
+    }
 
-        m_piece = null;
-
-        return tmp_piece;
+    /**
+     * Aby objekty Square byly stejné, musí se shodovat jak atribut column,
+     * tak row.
+     * 
+     * @param obj
+     * @return 
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Square other = (Square) obj;
+        if (this.column != other.column) {
+            return false;
+        }
+        if (this.row != other.row) {
+            return false;
+        }
+        return true;
     }
     
 }
