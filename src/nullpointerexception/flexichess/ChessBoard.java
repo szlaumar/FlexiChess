@@ -112,9 +112,15 @@ public class ChessBoard {
      * @param row
      * @return 
      */
-    // TODO: ma ji dat jako vyhozenou? stejne jako capturePieceAt()?
     public ChessPiece emptySquare(char column, int row) {
-        return capturePieceAt(column, row);
+        if (isEmptyAt(column, row))
+            throw new IllegalStateException("Square is empty.");
+        
+        ChessPiece chessPiece = m_board[column - 'a'][row - 1];
+        chessPiece.setOffBoard();
+        m_board[column - 'a'][row - 1] = null;
+        
+        return chessPiece;
     }
     
     /**
@@ -148,11 +154,7 @@ public class ChessBoard {
      * @return 
      */
     public ChessPiece capturePieceAt(char column, int row) {
-        if (isEmptyAt(column, row))
-            throw new IllegalStateException("Square is empty.");
-        
-        ChessPiece chessPiece = m_board[column - 'a'][row - 1];
-        chessPiece.setOffBoard();
+        ChessPiece chessPiece = emptySquare(column, row);
         capturedPieces.add(chessPiece);
         
         return chessPiece;
