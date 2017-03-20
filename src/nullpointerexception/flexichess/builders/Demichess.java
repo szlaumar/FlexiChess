@@ -30,14 +30,14 @@ public class Demichess implements ChessGameBuilder {
         board.putPiece('d', 2, new Pawn  (board, ChessPiece.Color.WHITE));
         
         // place black pieces
-        board.putPiece('d', 8, new King  (board, ChessPiece.Color.BLACK));
-        board.putPiece('c', 8, new Bishop(board, ChessPiece.Color.BLACK));
-        board.putPiece('b', 8, new Knight(board, ChessPiece.Color.BLACK));
-        board.putPiece('a', 8, new Rook  (board, ChessPiece.Color.BLACK));
-        board.putPiece('d', 7, new Pawn  (board, ChessPiece.Color.BLACK));
-        board.putPiece('c', 7, new Pawn  (board, ChessPiece.Color.BLACK));
-        board.putPiece('b', 7, new Pawn  (board, ChessPiece.Color.BLACK));
+        board.putPiece('a', 8, new King  (board, ChessPiece.Color.BLACK));
+        board.putPiece('b', 8, new Bishop(board, ChessPiece.Color.BLACK));
+        board.putPiece('c', 8, new Knight(board, ChessPiece.Color.BLACK));
+        board.putPiece('d', 8, new Rook  (board, ChessPiece.Color.BLACK));
         board.putPiece('a', 7, new Pawn  (board, ChessPiece.Color.BLACK));
+        board.putPiece('b', 7, new Pawn  (board, ChessPiece.Color.BLACK));
+        board.putPiece('c', 7, new Pawn  (board, ChessPiece.Color.BLACK));
+        board.putPiece('d', 7, new Pawn  (board, ChessPiece.Color.BLACK));
         
         return board;
     }

@@ -36,14 +36,13 @@ public abstract class ChessPiece {
      * <p>
      * 
      * CHESS FIGURE KINDS:  <br>
-     *  p   pawn            <br>
-     *  N   knight          <br>
+     *  P   pawn            <br>
+     *  S   knight          <br>
      *  B   bishop          <br>
      *  R   rook            <br>
      *  Q   queen           <br>
      *  K   king            <br>
      */
-    protected char  m_letter;
     private final Color m_color;
     private Square      m_square = null;
     private final ChessBoard  m_board;
@@ -106,7 +105,7 @@ public abstract class ChessPiece {
      * @return ChessPiece/chess figure symbol.
      */
     public String symbol(){
-        return "" + m_color.getSign() + m_letter;
+        return "" + m_color.getSign() + this.letter();
     }
 
     /**

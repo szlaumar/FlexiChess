@@ -138,7 +138,7 @@ public class ChessBoard {
         if (isEmptyAt(fromColumn, fromRow) || !isEmptyAt(toColumn, toRow))
             throw new IllegalStateException("Can't move chess piece.");
         
-        ChessPiece chessPiece = m_board[fromColumn][fromRow];
+        ChessPiece chessPiece = m_board[fromColumn - 'a'][fromRow - 1];
         putPiece(toColumn, toRow, chessPiece);
         m_board[fromColumn - 'a'][fromRow - 1] = null;
     }
