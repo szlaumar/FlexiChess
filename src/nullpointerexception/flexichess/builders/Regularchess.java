@@ -38,8 +38,8 @@ public class Regularchess implements ChessGameBuilder {
         board.putPiece('h', ROWS, new Rook  (board, ChessPiece.Color.BLACK));
         board.putPiece('g', ROWS, new Knight(board, ChessPiece.Color.BLACK));
         board.putPiece('f', ROWS, new Bishop(board, ChessPiece.Color.BLACK));
-        board.putPiece('e', ROWS, new Queen (board, ChessPiece.Color.BLACK));
-        board.putPiece('d', ROWS, new King  (board, ChessPiece.Color.BLACK));
+        board.putPiece('e', ROWS, new King  (board, ChessPiece.Color.BLACK));
+        board.putPiece('d', ROWS, new Queen (board, ChessPiece.Color.BLACK));
         board.putPiece('c', ROWS, new Bishop(board, ChessPiece.Color.BLACK));
         board.putPiece('b', ROWS, new Knight(board, ChessPiece.Color.BLACK));
         board.putPiece('a', ROWS, new Rook  (board, ChessPiece.Color.BLACK));

@@ -27,10 +27,10 @@ public class Silverman4x5 implements ChessGameBuilder {
         }
         
         // place black pieces
-        board.putPiece('d', ROWS, new Rook  (board, ChessPiece.Color.BLACK));
-        board.putPiece('c', ROWS, new Queen (board, ChessPiece.Color.BLACK));
-        board.putPiece('b', ROWS, new King  (board, ChessPiece.Color.BLACK));
         board.putPiece('a', ROWS, new Rook  (board, ChessPiece.Color.BLACK));
+        board.putPiece('b', ROWS, new Queen (board, ChessPiece.Color.BLACK));
+        board.putPiece('c', ROWS, new King  (board, ChessPiece.Color.BLACK));
+        board.putPiece('d', ROWS, new Rook  (board, ChessPiece.Color.BLACK));
         for (int i = 0; i < COLUMNS; i++) {
             board.putPiece((char) ('a' + i), ROWS - 1, 
                     new Pawn(board, ChessPiece.Color.BLACK));

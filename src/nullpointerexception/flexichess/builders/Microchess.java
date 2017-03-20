@@ -26,11 +26,11 @@ public class Microchess implements ChessGameBuilder {
         board.putPiece('d', 2, new Pawn  (board, ChessPiece.Color.WHITE));
         
         // place black pieces
-        board.putPiece('d', 5, new Rook (board, ChessPiece.Color.BLACK));
-        board.putPiece('c', 5, new Bishop(board, ChessPiece.Color.BLACK));
-        board.putPiece('b', 5, new Rook  (board, ChessPiece.Color.BLACK));
-        board.putPiece('a', 5, new King  (board, ChessPiece.Color.BLACK));
-        board.putPiece('a', 4, new Pawn  (board, ChessPiece.Color.BLACK));
+        board.putPiece('d', ROWS, new Rook  (board, ChessPiece.Color.BLACK));
+        board.putPiece('c', ROWS, new Bishop(board, ChessPiece.Color.BLACK));
+        board.putPiece('b', ROWS, new Knight(board, ChessPiece.Color.BLACK));
+        board.putPiece('a', ROWS, new King  (board, ChessPiece.Color.BLACK));
+        board.putPiece('a', ROWS - 1, new Pawn  (board, ChessPiece.Color.BLACK));
         
         return board;
     }
