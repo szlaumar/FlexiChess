@@ -13,9 +13,9 @@ import java.util.Stack;
  * @author Szlauer Martin
  */
 public class ChessBoard {
-    private ChessPiece[][] m_board;
-    private Stack<ChessPiece> capturedPieces;
-    private HashSet<ChessPiece> allPieces;
+    final private ChessPiece[][] m_board;
+    final private Stack<ChessPiece> capturedPieces;
+    final private HashSet<ChessPiece> allPieces;
     
     /**
      * Vytvoří šachovnici o zadaném počtu sloupců a řádků.

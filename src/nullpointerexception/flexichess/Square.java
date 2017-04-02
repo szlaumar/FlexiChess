@@ -76,5 +76,13 @@ public class Square {
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%c%d", column, row);
+    }
     
+    public Square step(int colStep, int rowStep){
+        return new Square((char)(column + colStep), row + rowStep); 
+    }
 }

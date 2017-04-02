@@ -1,5 +1,6 @@
-import nullpointerexception.flexichess.ChessBoard;
-import nullpointerexception.flexichess.ChessPiece;
+import nullpointerexception.flexichess.*;
+
+import java.util.List;
 
 public class TestPiece extends ChessPiece {
 	
@@ -14,5 +15,25 @@ public class TestPiece extends ChessPiece {
 	@Override
 	public char letter() {
 		return 'T';
+	}
+
+	@Override
+	public <T> T accept(ChessPieceVisitor<T> visitor) {
+		return null;
+	}
+
+	@Override
+	public boolean canBeCaptured() {
+		return false;
+	}
+
+	@Override
+	public List<Move> validMoves() {
+		return null;
+	}
+
+	@Override
+	public List<Square> threatens() {
+		return null;
 	}
 }
