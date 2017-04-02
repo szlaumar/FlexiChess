@@ -35,15 +35,29 @@ public class SimpleMove implements Move{
     public Square to() {
         return to;
     }
-    
+
+    /**
+     * Provede tah. Pokud je cílové políčko prázdné, figurka se tam jen posune. Pokud je na něm soupeřova figurka, tak je zajmuta.
+     *
+     * @param board
+     */
     @Override
     public void executeOnBoard(ChessBoard board) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (!piece.validMoves().contains(this))
+            return;
+
+        if (!board.isEmptyAt(to))
+            board.capturePieceAt(to);
+
+        board.moveTo(from, to);
     }
 
+    /**
+     * Vrátí šachovnici přesně do takového stavu, v jakém byla po provedení tohoto tahu.
+     */
     @Override
     public void revertOnBoard(ChessBoard board) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
     
     public boolean isCapturing(){
