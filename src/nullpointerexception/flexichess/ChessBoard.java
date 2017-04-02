@@ -1,9 +1,6 @@
 package nullpointerexception.flexichess;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Představuje šachovnici.
@@ -16,6 +13,7 @@ public class ChessBoard {
     final private ChessPiece[][] m_board;
     final private Stack<ChessPiece> capturedPieces;
     final private HashSet<ChessPiece> allPieces;
+    final private List<Move> playedMoves;
     
     /**
      * Vytvoří šachovnici o zadaném počtu sloupců a řádků.
@@ -23,10 +21,17 @@ public class ChessBoard {
      * @param column    Number of m_board columns.
      * @param row       Number of m_board rows.
      */
-    public ChessBoard(int column, int row){
+    public ChessBoard(int column, int row) {
         m_board = new ChessPiece[column][row];
         capturedPieces = new Stack<>();
         allPieces = new HashSet<>();
+        playedMoves = new LinkedList<>();
+    }
+
+    public ChessBoard(int columns, int rows, Square whiteKingPos, Square blackKingPos) {
+        this(columns, rows);
+        putPiece(whiteKingPos.column, whiteKingPos.row,
+                new King(this, ChessPiece.Color.WHITE, whiteKingPos.column, whiteKingPos.row));
     }
 
     /**
@@ -56,13 +61,17 @@ public class ChessBoard {
      * @param row       Row number.
      * @return          ChessPiece/chess figure.
      */
-    public ChessPiece pieceAt(char column, int row){
+    public ChessPiece pieceAt(char column, int row) {
         ChessPiece piece = m_board[column - 'a'][row - 1];
         
         if( piece == null )
             throw new IllegalStateException("No chess piece on given coordinates.");
         else
             return piece;
+    }
+
+    public ChessPiece pieceAt(Square square) {
+        return pieceAt(square.column, square.row);
     }
 
     /**
@@ -102,6 +111,10 @@ public class ChessBoard {
     public boolean isEmptyAt(char column, int row) {
         return m_board[column - 'a'][row - 1] == null;
     }
+
+    public boolean isEmptyAt(Square square) {
+        return isEmptyAt(square.column, square.row);
+    }
     
     /**
      * Vyprázndí daný čtverec a postaví figurku mimo šachovnici.
@@ -140,7 +153,12 @@ public class ChessBoard {
         
         ChessPiece chessPiece = m_board[fromColumn - 'a'][fromRow - 1];
         putPiece(toColumn, toRow, chessPiece);
+        chessPiece.incrementMoveCounter();
         m_board[fromColumn - 'a'][fromRow - 1] = null;
+    }
+
+    public void moveTo(Square from, Square to) {
+        moveTo(from.column, from.row, to.column, to.row);
     }
     
     /**
@@ -148,16 +166,26 @@ public class ChessBoard {
      * vrátí danou figurku.
      * 
      * Pokud je políčko prázdné, vyhodí výjimku IllegalStateException.
+     * Pokud figurka na zadanem policku nemuze byt vyhozena vyhodi vyjimku UnsupportedOperationException.
      * 
      * @param column
      * @param row
      * @return 
      */
     public ChessPiece capturePieceAt(char column, int row) {
-        ChessPiece chessPiece = emptySquare(column, row);
+        ChessPiece chessPiece = pieceAt(column, row);
+
+        if (!chessPiece.canBeCaptured())
+            throw new UnsupportedOperationException("Chess piece cannot be captured");
+
+        emptySquare(column, row);
         capturedPieces.add(chessPiece);
         
         return chessPiece;
+    }
+
+    public ChessPiece capturePieceAt(Square square) {
+        return capturePieceAt(square.column, square.row);
     }
     
     /**
@@ -206,14 +234,71 @@ public class ChessBoard {
         });
         return list;
     }
-    
+
     /**
      * Add newly created ChessPuece to the pool of all pieces assigned to this
      * board.
-     * 
-     * @param piece 
+     *
+     * @param piece
      */
     public void addNewChessPiece(ChessPiece piece) {
         allPieces.add(piece);
     }
+
+    public boolean isInsideBoard(char column, int row) {
+        if (column - 'a' >= 0 && column - 'a' < m_board.length &&
+                row >= 0 && row < m_board[0].length)
+            return true;
+
+        return false;
+    }
+
+    public boolean isInsideBoard(Square square) {
+        isInsideBoard(square.column, square.row);
+    }
+
+    /**
+     * @param color
+     * @return  Seznam všech figurek dané barvy na šachovnici.
+     */
+    public List<ChessPiece> onBoardPieces(ChessPiece.Color color) {
+        List<ChessPiece> list = new ArrayList<>();
+
+        for (ChessPiece[] column : m_board)
+            for (ChessPiece piece : column)
+                if (piece.color() == color)
+                    list.add(piece);
+
+        return list;
+    }
+
+    /**
+     * @return  Seznam všech figurek na šachovnici.
+     */
+    public List<ChessPiece> onBoardPieces() {
+        List<ChessPiece> list = onBoardPieces(ChessPiece.Color.WHITE);
+        list.addAll(onBoardPieces(ChessPiece.Color.BLACK));
+        return list;
+    }
+
+    /**
+     * Množina všech políček ohrožovaných firugurkami dané barvy.
+     *
+     * @param color
+     * @return
+     */
+//    public Set<Square> threatenedBy(ChessPiece.Color color) {
+//
+//    }
+//
+//    public List<Move> validMovesFor(ChessPiece.Color color) {
+//
+//    }
+//
+//    public King king(ChessPiece.Color color) {
+//        for (ChessPiece[] column : m_board)
+//            for (ChessPiece piece : column)
+//                if (piece.letter() == 'K' && piece.color() == color)
+//                    return piece;
+//    }
 }

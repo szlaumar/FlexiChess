@@ -58,7 +58,7 @@ public abstract class ChessPiece {
      */
     private final Color m_color;
     private Square      m_square = null;
-    private final ChessBoard  m_board;
+    private final ChessBoard m_board;
     private int moves = 0;
     
     /**
@@ -221,5 +221,15 @@ public abstract class ChessPiece {
             moves--;
         else
             throw new IllegalStateException();
+    }
+
+    protected boolean isEnemyPiece(Square square) {
+        if (board().isEmptyAt(square))
+            return false;
+
+        if (board().pieceAt(square).color() == m_color.opposite())
+            return true;
+
+        return false;
     }
 }
