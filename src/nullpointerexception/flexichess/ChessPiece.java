@@ -1,5 +1,7 @@
 package nullpointerexception.flexichess;
 
+import java.util.List;
+
 /**
  * Představuje šachovou figurku.
  * 
@@ -28,6 +30,17 @@ public abstract class ChessPiece {
         public char getSign() {
             return m_sign;
         }
+        
+        public Color opposite(){
+            switch(this){
+                case WHITE:
+                    return BLACK;
+                case BLACK:
+                    return WHITE;
+            }
+            
+            throw new AssertionError();
+        }
     }
 
     /** 
@@ -46,7 +59,8 @@ public abstract class ChessPiece {
     private final Color m_color;
     private Square      m_square = null;
     private final ChessBoard  m_board;
- 
+    private int moves = 0;
+    
     /**
      * Chráněný konstruktor, který vytvoří figurku pro danou šachovnici.
      * 
@@ -189,4 +203,23 @@ public abstract class ChessPiece {
         return symbol();
     }
     
+    public abstract boolean canBeCaptured();
+    public abstract List<Move> validMoves();
+    public abstract List<Square> threatens();
+    public abstract <T> T accept(ChessPieceVisitor<T> visitor);
+    
+    public int moveCounter(){
+        return moves;
+    }
+    
+    public void incrementMoveCounter(){
+        moves++;
+    }
+    
+    public void decrementMoveCounter(){
+        if(moves > 0)
+            moves--;
+        else
+            throw new IllegalStateException();
+    }
 }
