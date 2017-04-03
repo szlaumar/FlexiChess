@@ -14,4 +14,7 @@ public interface Move {
     public void executeOnBoard(ChessBoard board);
     public void revertOnBoard(ChessBoard board);
     public String notation();
+
+    public abstract ChessPiece acceptPiece(PieceMoveVisitor visitor);
+    public abstract Square acceptToPosition(PieceMoveVisitor visitor);
 }
