@@ -232,4 +232,48 @@ public abstract class ChessPiece {
 
         return false;
     }
+
+    /**
+     * HashCode se vypočítává z barvy figurky, board a pozice.
+     *
+     * @return
+     */
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 59 * hash + this.m_board.hashCode();
+        hash = 59 * hash + this.color().m_sign;
+        return hash;
+    }
+
+    /**
+     * Aby objekty Square byly stejné, musí se shodovat jak barva figurky, board a pozice
+     *
+     * @param obj
+     * @return
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ChessPiece other = (ChessPiece) obj;
+        if (this.board() != other.board()) {
+            return false;
+        }
+        if (this.color() != other.color()) {
+            return false;
+        }
+        if (this.position() != other.position()) {
+            return false;
+        }
+
+        return true;
+    }
 }

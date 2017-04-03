@@ -65,5 +65,53 @@ public class King extends ChessPiece {
     public <T> T accept(ChessPieceVisitor<T> visitor) {
         return visitor.visit(this);
     }
-    
+
+    public boolean isInCheck() {
+        for (Square square : this.board().threatenedBy(color().opposite()))
+            if (square == this.position())
+                return true;
+
+        return false;
+    }
+
+    /**
+     * HashCode se vypočítává z char K (King) a barvy figurky.
+     *
+     * @return
+     */
+    @Override
+    public int hashCode() {
+        int hash = 'K';
+        hash = 59 * hash + this.color().m_sign;
+        return hash;
+    }
+
+    /**
+     * Aby objekty Square byly stejné, musí se shodovat jak atribut color,
+     * tak board.
+     *
+     * @param obj
+     * @return
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final King other = (King) obj;
+        if (this.board() != other.board()) {
+            return false;
+        }
+        if (this.color() != other.color()) {
+            return false;
+        }
+
+        return true;
+    }
 }
