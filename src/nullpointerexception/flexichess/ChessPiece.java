@@ -247,7 +247,7 @@ public abstract class ChessPiece {
     }
 
     /**
-     * Aby objekty Square byly stejné, musí se shodovat jak barva figurky, board a pozice
+     * Aby objekty Square byly stejné, musí se shodovat jak barva figurky, board
      *
      * @param obj
      * @return
@@ -268,9 +268,6 @@ public abstract class ChessPiece {
             return false;
         }
         if (this.color() != other.color()) {
-            return false;
-        }
-        if (this.position() != other.position()) {
             return false;
         }
 

@@ -51,7 +51,11 @@ public class ChessBoard {
     public int rows(){
         return m_board[0].length;
     }
-    
+
+    public LinkedList<Move> getPlayedMoves() {
+        return playedMoves;
+    }
+
     /**
      * Vrátí figurku na zadané souřadnici. 
      * 
@@ -324,9 +328,4 @@ public class ChessBoard {
         throw new IllegalStateException(color.toString() + " King not found");
     }
 
-    public void undoLastMove() {
-        Move move = playedMoves.pollLast();
-
-
-    }
 }
