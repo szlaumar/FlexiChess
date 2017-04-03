@@ -103,4 +103,14 @@ public class SimpleMove implements Move{
     public String toString(){
         return notation();
     }
+
+    @Override
+    public ChessPiece acceptPiece(PieceMoveVisitor visitor) {
+        return visitor.visitPiece(this);
+    }
+
+    @Override
+    public Square acceptToPosition(PieceMoveVisitor visitor) {
+        return visitor.visitSquare(this);
+    }
 }

@@ -254,7 +254,7 @@ public class ChessBoard {
     }
 
     public boolean isInsideBoard(Square square) {
-        isInsideBoard(square.column, square.row);
+        return isInsideBoard(square.column, square.row);
     }
 
     /**
@@ -287,14 +287,24 @@ public class ChessBoard {
      * @param color
      * @return
      */
-//    public Set<Square> threatenedBy(ChessPiece.Color color) {
-//
-//    }
-//
-//    public List<Move> validMovesFor(ChessPiece.Color color) {
-//
-//    }
-//
+    public Set<Square> threatenedBy(ChessPiece.Color color) {
+        Set<Square> set = new HashSet<>();
+
+        for (ChessPiece piece : onBoardPieces(color))
+            set.addAll(piece.threatens());
+
+        return set;
+    }
+
+    public List<Move> validMovesFor(ChessPiece.Color color) {
+        List<Move> list = new ArrayList<>();
+
+        for (ChessPiece piece : onBoardPieces(color))
+            list.addAll(piece.validMoves());
+
+        return list;
+    }
+
 //    public King king(ChessPiece.Color color) {
 //        for (ChessPiece[] column : m_board)
 //            for (ChessPiece piece : column)
