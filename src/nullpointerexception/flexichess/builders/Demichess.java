@@ -8,6 +8,7 @@ import nullpointerexception.flexichess.Knight;
 import nullpointerexception.flexichess.Pawn;
 import nullpointerexception.flexichess.Queen;
 import nullpointerexception.flexichess.Rook;
+import nullpointerexception.flexichess.Square;
 
 public class Demichess implements ChessGameBuilder {
     
@@ -17,10 +18,13 @@ public class Demichess implements ChessGameBuilder {
     
     @Override
     public ChessBoard board() {
-        ChessBoard board = new ChessBoard(COLUMNS, ROWS);
+        ChessBoard board = new ChessBoard(  COLUMNS, 
+                                            ROWS, 
+                                            new Square('a', 1),
+                                            new Square('a', 8)     );
+        
         
         // place white pieces
-        board.putPiece('a', 1, new King  (board, ChessPiece.Color.WHITE));
         board.putPiece('b', 1, new Bishop(board, ChessPiece.Color.WHITE));
         board.putPiece('c', 1, new Knight(board, ChessPiece.Color.WHITE));
         board.putPiece('d', 1, new Rook  (board, ChessPiece.Color.WHITE));
@@ -30,7 +34,6 @@ public class Demichess implements ChessGameBuilder {
         board.putPiece('d', 2, new Pawn  (board, ChessPiece.Color.WHITE));
         
         // place black pieces
-        board.putPiece('a', 8, new King  (board, ChessPiece.Color.BLACK));
         board.putPiece('b', 8, new Bishop(board, ChessPiece.Color.BLACK));
         board.putPiece('c', 8, new Knight(board, ChessPiece.Color.BLACK));
         board.putPiece('d', 8, new Rook  (board, ChessPiece.Color.BLACK));

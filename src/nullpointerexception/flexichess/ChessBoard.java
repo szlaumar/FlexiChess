@@ -13,20 +13,27 @@ import java.util.Stack;
  * @author Szlauer Martin
  */
 public class ChessBoard {
-    private ChessPiece[][] m_board;
-    private Stack<ChessPiece> capturedPieces;
-    private HashSet<ChessPiece> allPieces;
+    final private ChessPiece[][]        m_board;
+    final private Stack<ChessPiece>     capturedPieces;
+    final private HashSet<ChessPiece>   allPieces;
     
     /**
-     * Vytvoří šachovnici o zadaném počtu sloupců a řádků.
+     * Vytvoří šachovnici o zadaném počtu sloupců a řádků
+     * s figurkami králů rovnou na zadaných pozicích.
      * 
-     * @param column    Number of m_board columns.
-     * @param row       Number of m_board rows.
+     * @param column    Number of columns.
+     * @param row       Number of rows.
      */
-    public ChessBoard(int column, int row){
+    public ChessBoard(  int     column, 
+                        int     row, 
+                        Square  whiteKingPos, 
+                        Square  blackKingPos){
         m_board = new ChessPiece[column][row];
         capturedPieces = new Stack<>();
         allPieces = new HashSet<>();
+        
+        new King(this, ChessPiece.Color.WHITE, whiteKingPos.column, whiteKingPos.row);
+        new King(this, ChessPiece.Color.BLACK, blackKingPos.column, blackKingPos.row);
     }
 
     /**
@@ -216,4 +223,66 @@ public class ChessBoard {
     public void addNewChessPiece(ChessPiece piece) {
         allPieces.add(piece);
     }
+    
+   
+    /**
+     * True pokud se daná souřadnice skutečně nachází na šachovnici.
+     * 
+     * @param column
+     * @param row
+     * @return 
+     */
+    public boolean isInsideBoard(char column, int row){
+    
+        return false;
+    }
+    
+    /**
+     * Seznam všech figurek na šachovnici.
+     * @return 
+     */
+    public List<ChessPiece> onBoardPieces(){
+        
+    }
+
+    /**
+     * Seznam všech figurek dané barvy na šachovnici.
+     * 
+     * @param color
+     * @return 
+     */
+    public List<ChessPiece> onBoardPieces(ChessPiece.Color color){
+        
+    }
+
+    /**
+     * Množina všech políček ohrožovaných firugurkami dané barvy.
+     * 
+     * @param color
+     * @return 
+     */
+    public Set<Square> threatenedBy(ChessPiece.Color color){
+        
+    }
+
+    /**
+     * Množina všech validních tahů figurek dané barvy.
+     * 
+     * @param color
+     * @return 
+     */
+    public List<Move> validMovesFor(ChessPiece.Color color){
+        
+    }
+
+    /**
+     * Král dané barvy.
+     * 
+     * @param color
+     * @return 
+     */
+    public King king(ChessPiece.Color color){
+        
+    }
+
 }

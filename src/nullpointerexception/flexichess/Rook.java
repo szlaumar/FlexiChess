@@ -1,5 +1,7 @@
 package nullpointerexception.flexichess;
 
+import java.util.List;
+
 public class Rook extends ChessPiece {
 
     public Rook(ChessBoard board, Color color) {
@@ -13,6 +15,26 @@ public class Rook extends ChessPiece {
     @Override
     public char letter() {
         return 'R';
+    }
+
+    @Override
+    public boolean canBeCaptured() {
+        return true;
+    }
+
+    @Override
+    public List<Move> validMoves() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Square> threatens() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public <T> T accept(ChessPieceVisitor<T> visitor) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

@@ -1,5 +1,7 @@
 package nullpointerexception.flexichess;
 
+import java.util.List;
+
 /**
  * Představuje šachovou figurku.
  * 
@@ -28,6 +30,22 @@ public abstract class ChessPiece {
         public char getSign() {
             return m_sign;
         }
+        
+        /**
+         * Vrací opačnou barvu k aktuální barvě.
+         * 
+         * @return 
+         */
+        public Color opposite(){
+            switch(this){
+                case WHITE:
+                    return BLACK;
+                case BLACK:
+                    return WHITE;
+            }
+            
+            throw new AssertionError();
+        }
     }
 
     /** 
@@ -43,10 +61,11 @@ public abstract class ChessPiece {
      *  Q   queen           <br>
      *  K   king            <br>
      */
-    private final Color m_color;
-    private Square      m_square = null;
-    private final ChessBoard  m_board;
- 
+    private final Color         m_color;
+    private Square              m_square = null;
+    private final ChessBoard    m_board;
+    private int                 m_moves = 0;
+    
     /**
      * Chráněný konstruktor, který vytvoří figurku pro danou šachovnici.
      * 
@@ -189,4 +208,67 @@ public abstract class ChessPiece {
         return symbol();
     }
     
+    /**
+     * True pokud může být figurka vůbec kdy zajata.
+     * 
+     * Platí pro všechny figurky, kromě krále, který vrací False.
+     * 
+     * @return 
+     */
+    public abstract boolean canBeCaptured();
+
+    /**
+     * Seznam validních tahů této figurky za aktuálního rozestavení šachovnice. 
+     * 
+     * Pokud je figurka mimo šachovnici, vyhodí IllegalStateException.
+     * 
+     * @return 
+     */
+    public abstract List<Move> validMoves();
+    
+    /**
+     * Seznam políček, které figurka ohrožuje. 
+     * 
+     * Pokud je figurka mimo šachovnici, vyhodí IllegalStateException.
+     * 
+     * @return 
+     */
+    public abstract List<Square> threatens();
+
+    /**
+     * Standardní accept pro generický visitor.
+     * 
+     * @param <T>
+     * @param visitor
+     * @return 
+     */
+    public abstract <T> T accept(ChessPieceVisitor<T> visitor);
+    
+    /**
+     * Vrací kolikrát bylo figurkou taženo.
+     * 
+     * @return 
+     */
+    public int moveCounter(){
+        return m_moves;
+    }
+    
+    /**
+     * Přičte jedničku k počtu tahů provedených touto figurkou.
+     */
+    public void incrementMoveCounter(){
+        m_moves++;
+    }
+    
+    /**
+     * Odečte jedničku od počtu tahů provedených touto figurkou. 
+     * 
+     * Pokud by tak mělo vzniknout záporné číslo, vyhodí IllegalStateException.
+     */
+    public void decrementMoveCounter(){
+        if(m_moves > 0)
+            m_moves--;
+        else
+            throw new IllegalStateException();
+    }
 }

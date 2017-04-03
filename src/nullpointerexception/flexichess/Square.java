@@ -76,5 +76,23 @@ public class Square {
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%c%d", column, row);
+    }
     
+    /**
+     * Vrátí souřadnice políčka posunutého proti tomuto políčku 
+     * o colStep sloupců doprava a rowStep řádků nahoru. 
+     * 
+     * Dovoleny jsou i záporné hodnoty.
+     * 
+     * @param colStep
+     * @param rowStep
+     * @return 
+     */
+    public Square step(int colStep, int rowStep){
+        return new Square((char)(column + colStep), row + rowStep); 
+    }
 }

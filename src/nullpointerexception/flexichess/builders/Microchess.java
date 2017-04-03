@@ -8,6 +8,7 @@ import nullpointerexception.flexichess.Knight;
 import nullpointerexception.flexichess.Pawn;
 import nullpointerexception.flexichess.Queen;
 import nullpointerexception.flexichess.Rook;
+import nullpointerexception.flexichess.Square;
 
 public class Microchess implements ChessGameBuilder {
 
@@ -16,20 +17,21 @@ public class Microchess implements ChessGameBuilder {
     
     @Override
     public ChessBoard board() {
-        ChessBoard board = new ChessBoard(COLUMNS, ROWS);
+        ChessBoard board = new ChessBoard(  COLUMNS, 
+                                            ROWS, 
+                                            new Square('d', 1),
+                                            new Square('a', ROWS)     );
         
         // place white pieces
         board.putPiece('a', 1, new Rook (board, ChessPiece.Color.WHITE));
         board.putPiece('b', 1, new Bishop(board, ChessPiece.Color.WHITE));
         board.putPiece('c', 1, new Knight(board, ChessPiece.Color.WHITE));
-        board.putPiece('d', 1, new King  (board, ChessPiece.Color.WHITE));
         board.putPiece('d', 2, new Pawn  (board, ChessPiece.Color.WHITE));
         
         // place black pieces
         board.putPiece('d', ROWS, new Rook  (board, ChessPiece.Color.BLACK));
         board.putPiece('c', ROWS, new Bishop(board, ChessPiece.Color.BLACK));
         board.putPiece('b', ROWS, new Knight(board, ChessPiece.Color.BLACK));
-        board.putPiece('a', ROWS, new King  (board, ChessPiece.Color.BLACK));
         board.putPiece('a', ROWS - 1, new Pawn  (board, ChessPiece.Color.BLACK));
         
         return board;

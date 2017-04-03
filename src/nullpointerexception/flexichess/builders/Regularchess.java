@@ -8,6 +8,7 @@ import nullpointerexception.flexichess.Knight;
 import nullpointerexception.flexichess.Pawn;
 import nullpointerexception.flexichess.Queen;
 import nullpointerexception.flexichess.Rook;
+import nullpointerexception.flexichess.Square;
 
 public class Regularchess implements ChessGameBuilder {
 
@@ -17,14 +18,16 @@ public class Regularchess implements ChessGameBuilder {
     
     @Override
     public ChessBoard board() {
-        ChessBoard board = new ChessBoard(COLUMNS, ROWS);
+        ChessBoard board = new ChessBoard(  COLUMNS, 
+                                            ROWS, 
+                                            new Square('e', 1),
+                                            new Square('e', ROWS)     );
         
         // place white pieces
         board.putPiece('a', 1, new Rook  (board, ChessPiece.Color.WHITE));
         board.putPiece('b', 1, new Knight(board, ChessPiece.Color.WHITE));
         board.putPiece('c', 1, new Bishop(board, ChessPiece.Color.WHITE));
         board.putPiece('d', 1, new Queen (board, ChessPiece.Color.WHITE));
-        board.putPiece('e', 1, new King  (board, ChessPiece.Color.WHITE));
         board.putPiece('f', 1, new Bishop(board, ChessPiece.Color.WHITE));
         board.putPiece('g', 1, new Knight(board, ChessPiece.Color.WHITE));
         board.putPiece('h', 1, new Rook  (board, ChessPiece.Color.WHITE));
@@ -38,7 +41,6 @@ public class Regularchess implements ChessGameBuilder {
         board.putPiece('h', ROWS, new Rook  (board, ChessPiece.Color.BLACK));
         board.putPiece('g', ROWS, new Knight(board, ChessPiece.Color.BLACK));
         board.putPiece('f', ROWS, new Bishop(board, ChessPiece.Color.BLACK));
-        board.putPiece('e', ROWS, new King  (board, ChessPiece.Color.BLACK));
         board.putPiece('d', ROWS, new Queen (board, ChessPiece.Color.BLACK));
         board.putPiece('c', ROWS, new Bishop(board, ChessPiece.Color.BLACK));
         board.putPiece('b', ROWS, new Knight(board, ChessPiece.Color.BLACK));
