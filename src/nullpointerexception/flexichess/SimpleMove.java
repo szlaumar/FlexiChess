@@ -57,17 +57,40 @@ public class SimpleMove implements Move{
      */
     @Override
     public void revertOnBoard(ChessBoard board) {
-        while (board)
+        Move move;
+
+        do {
+            move = board.getPlayedMoves().pollLast();
+            if (move == this)
+                return;
+
+            revertSingleMove(board);
+        } while (true);
     }
 
     /**
      * provede obraceny tah
+     * Throws IllegalStateException if not possible to revert move.
+     *
      * @param board
      */
     @Override
     public void revertSingleMove(ChessBoard board) {
         if (!piece.validMoves().contains(new SimpleMove(piece, from)))
-            return;
+            throw new IllegalStateException("Can't revert this move");
+
+        // piece is on board
+        if (board.onBoardPieces().contains(piece)) {
+            board.moveTo(to, from);
+            piece.decrementMoveCounter();
+        }
+        // piece got captured
+        else {
+            board.putPiece(from.column, from.row, piece);
+            board.capturedPieces(piece.color()).remove(piece);
+        }
+
+        piece.decrementMoveCounter();
     }
 
     public boolean isCapturing(){
@@ -86,6 +109,7 @@ public class SimpleMove implements Move{
         int hash = 7;
         hash = 59 * hash + Objects.hashCode(this.from);
         hash = 59 * hash + Objects.hashCode(this.to);
+        hash = 59 * hash + Objects.hashCode(this.piece);
         return hash;
     }
 
@@ -105,6 +129,9 @@ public class SimpleMove implements Move{
             return false;
         }
         if (!Objects.equals(this.to, other.to)) {
+            return false;
+        }
+        if (!Objects.equals(this.piece, other.piece)) {
             return false;
         }
         return true;
