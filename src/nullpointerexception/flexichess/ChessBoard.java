@@ -13,7 +13,7 @@ public class ChessBoard {
     final private ChessPiece[][] m_board;
     final private Stack<ChessPiece> capturedPieces;
     final private HashSet<ChessPiece> allPieces;
-    final private List<Move> playedMoves;
+    final private LinkedList<Move> playedMoves;
     
     /**
      * Vytvoří šachovnici o zadaném počtu sloupců a řádků.
@@ -305,10 +305,28 @@ public class ChessBoard {
         return list;
     }
 
-//    public King king(ChessPiece.Color color) {
-//        for (ChessPiece[] column : m_board)
-//            for (ChessPiece piece : column)
-//                if (piece.letter() == 'K' && piece.color() == color)
-//                    return piece;
-//    }
+    /**
+     *  Král dané barvy
+     *  Throws IllegalStateException if chess piece not found.
+     *
+     * @param color
+     * @return  Král dané barvy
+     */
+    public King king(ChessPiece.Color color) {
+        ChessPieceVisitor<King> visitor = new HandleChessPieceVisitor();
+
+        allPieces.contains(new King(this, color));
+        for (ChessPiece piece : allPieces) {
+            if (piece.equals(new King(this, color)))
+                return piece.accept(visitor);
+        }
+
+        throw new IllegalStateException(color.toString() + " King not found");
+    }
+
+    public void undoLastMove() {
+        Move move = playedMoves.pollLast();
+
+
+    }
 }

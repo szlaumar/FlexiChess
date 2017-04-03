@@ -57,11 +57,22 @@ public class SimpleMove implements Move{
      */
     @Override
     public void revertOnBoard(ChessBoard board) {
-
+        while (board)
     }
-    
+
+    /**
+     * provede obraceny tah
+     * @param board
+     */
+    @Override
+    public void revertSingleMove(ChessBoard board) {
+        if (!piece.validMoves().contains(new SimpleMove(piece, from)))
+            return;
+    }
+
     public boolean isCapturing(){
-        return !piece.board().isEmptyAt(to.column, to.row);
+        return !piece.board().isEmptyAt(to.column, to.row)
+                && piece.board().pieceAt(to).color() == piece.color().opposite();
     }
     
     @Override

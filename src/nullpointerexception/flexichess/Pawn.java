@@ -48,7 +48,12 @@ public class Pawn extends ChessPiece {
      * @return  Square of the new position if possible to go there, null if not possible.
      */
     private Square canGoStraight() {
-        Square newPosition = new Square(position().column, position().row + 1);
+        int direction = - 1;
+
+        if (color() == Color.WHITE)
+            direction = 1;
+
+        Square newPosition = new Square(position().column, position().row + direction);
         if (board().isInsideBoard(newPosition) && board().isEmptyAt(position()))
             return newPosition;
         return null;
@@ -60,7 +65,12 @@ public class Pawn extends ChessPiece {
      * @return  Square of the new position if possible to go there, null if not possible.
      */
     private Square canGoStraightBy2() {
-        Square newPosition = new Square(position().column, position().row + 2);
+        int direction = - 2;
+
+        if (color() == Color.WHITE)
+            direction = 2;
+
+        Square newPosition = new Square(position().column, position().row + direction);
         if (canGoStraight() != null && moveCounter() == 0 && board().isInsideBoard(newPosition))
             return newPosition;
         return null;
@@ -72,7 +82,12 @@ public class Pawn extends ChessPiece {
      * @return  Square of the new position if possible to go there, null if not possible.
      */
     private Square canGoDiagonalLeft() {
-        Square upperLeftPosition = new Square((char)(position().column - 1), position().row + 1);
+        int direction = - 1;
+
+        if (color() == Color.WHITE)
+            direction = 1;
+
+        Square upperLeftPosition = new Square((char)(position().column - 1), position().row + direction);
         if (board().isInsideBoard(upperLeftPosition) && isEnemyPiece(upperLeftPosition))
             return upperLeftPosition;
         return null;
@@ -84,7 +99,12 @@ public class Pawn extends ChessPiece {
      * @return  Square of the new position if possible to go there, null if not possible.
      */
     private Square canGoDiagonalRight() {
-        Square upperRightPosition = new Square((char)(position().column + 1), position().row + 1);
+        int direction = - 1;
+
+        if (color() == Color.WHITE)
+            direction = 1;
+
+        Square upperRightPosition = new Square((char)(position().column + 1), position().row + direction);
         if (board().isInsideBoard(upperRightPosition) && isEnemyPiece(upperRightPosition))
             return upperRightPosition;
         return null;
