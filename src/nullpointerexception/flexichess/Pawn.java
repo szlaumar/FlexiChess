@@ -106,7 +106,7 @@ public class Pawn extends ChessPiece {
 
     @Override
     public <T> T accept(ChessPieceVisitor<T> visitor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return visitor.visit(this);
     }
     
 }
