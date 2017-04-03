@@ -38,9 +38,10 @@ public class King extends ChessPiece {
         char newCol = (char)(position().column + i);
         int newRow = position().row + j;
 
-        // skip the King itself, field outside if board and field with own piece
+        // skip the King itself, field outside of board, field with own piece, King would end up in check
         if (i == 0 && j == 0 || !board().isInsideBoard(newCol, newRow)
-                || (!board().isEmptyAt(newCol, newRow) && board().pieceAt(newCol, newRow).color() == color()))
+                || (!board().isEmptyAt(newCol, newRow) && board().pieceAt(newCol, newRow).color() == color())
+                || isInCheck(newCol, newRow))
             return;
 
         list.add(new SimpleMove(board().pieceAt(newCol, newRow), new Square(newCol, newRow)));
@@ -67,8 +68,12 @@ public class King extends ChessPiece {
     }
 
     public boolean isInCheck() {
+        return isInCheck(position().column, position().row);
+    }
+
+    private boolean isInCheck(char col, int row) {
         for (Square square : this.board().threatenedBy(color().opposite()))
-            if (square == this.position())
+            if (square == new Square(col, row))
                 return true;
 
         return false;
