@@ -54,7 +54,7 @@ public class King extends ChessPiece {
         char newCol = (char)(position().column + i);
         int newRow = position().row + j;
 
-        if ((i == 0 && j == 0) || !board().isInsideBoard(newCol, newRow - 1))
+        if ((i == 0 && j == 0) || !board().isInsideBoard(newCol, newRow))
             return;
 
         list.add(new SimpleMove(this, new Square(newCol, newRow)));
