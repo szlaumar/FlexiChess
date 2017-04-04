@@ -14,6 +14,4 @@ public interface Move {
     public void executeOnBoard(ChessBoard board);
     public void revertOnBoard(ChessBoard board);
     public String notation();
-
-    public void revertSingleMove(ChessBoard board);
 }
