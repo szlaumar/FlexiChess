@@ -69,10 +69,10 @@ public class PawnTester extends ChessPieceTester {
 				sortSquares(blackPawn5.threatens()));
 		
 		//----------------------------------------------------------------
-		
+		System.out.println(board);
 		assertEquals(
-				Collections.EMPTY_LIST, 
-				sortMoves(board.king(ChessPiece.Color.WHITE).allMoves()));
+				Collections.EMPTY_LIST,
+				sortMoves(board.king(ChessPiece.Color.WHITE).validMoves()));
 		
 		assertEquals(
 				Collections.EMPTY_LIST, 
@@ -86,8 +86,8 @@ public class PawnTester extends ChessPieceTester {
 				sortMoves(whitePawn3.validMoves()));
 				
 		assertEquals(
-				Collections.EMPTY_LIST, 
-				sortMoves(board.king(ChessPiece.Color.BLACK).allMoves()));
+				Collections.EMPTY_LIST,
+				sortMoves(board.king(ChessPiece.Color.BLACK).validMoves()));
 		
 		assertEquals(
 				Collections.EMPTY_LIST, 
@@ -165,10 +165,11 @@ public class PawnTester extends ChessPieceTester {
 				"     a   b   c \n" +
 				"W+:\n" +
 				"B-: P";
-		assertEquals(expected, board.toString());		
+		assertEquals(expected, board.toString());
 		try{ blackPawn2.threatens(); fail(); } catch(IllegalStateException e) {};
 		try{ blackPawn2.validMoves(); fail(); } catch(IllegalStateException e) {};
-		
+
+		System.out.println(board);
 		assertEquals(Collections.EMPTY_LIST, blackPawn1.validMoves());
 		assertEquals(Collections.EMPTY_LIST, blackPawn3.validMoves());
 		assertEquals(Collections.EMPTY_LIST, blackPawn4.validMoves());
@@ -178,7 +179,7 @@ public class PawnTester extends ChessPieceTester {
 				Arrays.asList(
 					new SimpleMove(board.king(ChessPiece.Color.BLACK), new Square('a', 5))
 				), 
-				sortMoves(board.king(ChessPiece.Color.BLACK).allMoves()));
+				sortMoves(board.king(ChessPiece.Color.BLACK).validMoves()));
 		assertTrue(board.king(ChessPiece.Color.BLACK).isInCheck());
 		assertFalse(board.king(ChessPiece.Color.WHITE).isInCheck());
 	}

@@ -27,7 +27,7 @@ public class Pawn extends ChessPiece {
     @Override
     public List<Square> threatens() {
         if (isOffBoard())
-            return Collections.emptyList();
+            throw new IllegalStateException("Piece is off board.");
 
         List<Square> list = new ArrayList<>();
         if (goDiagonalLeft() != null)
@@ -41,6 +41,8 @@ public class Pawn extends ChessPiece {
     @Override
     public List<Move> validMoves() {
         if (isOffBoard())
+            throw new IllegalStateException("Piece is off board.");
+        if (board().king(color()).isInCheck())
             return Collections.emptyList();
 
         List<Move> list = new ArrayList<>();

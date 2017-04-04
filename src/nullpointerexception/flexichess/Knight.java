@@ -1,5 +1,6 @@
 package nullpointerexception.flexichess;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Knight extends ChessPiece {
@@ -24,12 +25,12 @@ public class Knight extends ChessPiece {
 
     @Override
     public List<Move> validMoves() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return Collections.emptyList();
     }
 
     @Override
     public List<Square> threatens() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return Collections.emptyList();
     }
 
     @Override
