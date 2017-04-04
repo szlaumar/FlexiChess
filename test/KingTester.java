@@ -35,7 +35,7 @@ public class KingTester extends ChessPieceTester {
 					new Square('c', 3)
 				), 
 				sortSquares(board.king(ChessPiece.Color.BLACK).threatens()));
-		
+
 		assertEquals(
 				Arrays.asList(
 					new SimpleMove(board.king(ChessPiece.Color.WHITE), new Square('a', 1)),

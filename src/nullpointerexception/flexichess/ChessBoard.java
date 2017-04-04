@@ -56,6 +56,10 @@ public class ChessBoard {
         return playedMoves;
     }
 
+    public void addPlayedMove(Move move) {
+        playedMoves.add(move);
+    }
+
     /**
      * Vrátí figurku na zadané souřadnici. 
      * 
@@ -335,4 +339,7 @@ public class ChessBoard {
         throw new IllegalStateException(color.toString() + " King not found");
     }
 
+    public void removeCapturedPiece() {
+        capturedPieces.pop();
+    }
 }
