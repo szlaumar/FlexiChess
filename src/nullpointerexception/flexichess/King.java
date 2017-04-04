@@ -85,6 +85,10 @@ public class King extends ChessPiece {
         return false;
     }
 
+    public boolean isInCheck() {
+        return isInCheck(position());
+    }
+
     @Override
     public List<Square> threatens() {
         List<Square> list = new ArrayList<>();
@@ -99,10 +103,6 @@ public class King extends ChessPiece {
     @Override
     public <T> T accept(ChessPieceVisitor<T> visitor) {
         return visitor.visit(this);
-    }
-
-    public boolean isInCheck() {
-        return isInCheck(position());
     }
 
     /**
