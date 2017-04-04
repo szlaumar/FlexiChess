@@ -131,7 +131,7 @@ public class Pawn extends ChessPiece {
 
         char newCol = (char)(position().column + 1);
         int newRow = position().row + direction;
-        if (board().isInsideBoard(newCol, newRow - 1))
+        if (board().isInsideBoard(newCol, newRow))
             return new Square(newCol, newRow);
 
         return null;

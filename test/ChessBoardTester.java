@@ -32,6 +32,7 @@ public class ChessBoardTester extends ChessPieceTester {
 	public void isideBoard() {
 		ChessBoard board = new ChessBoard(3, 6, 
 				new Square('b', 1), new Square('b', 6));
+		System.out.println(board);
 		assertTrue(board.isInsideBoard('a', 1));
 		assertTrue(board.isInsideBoard('b', 2));
 		assertTrue(board.isInsideBoard('c', 3));
@@ -163,7 +164,8 @@ public class ChessBoardTester extends ChessPieceTester {
 					new SimpleMove(whitePawn4, new Square('c', 4))
 				), 
 				sortMoves(board.validMovesFor(ChessPiece.Color.WHITE)));
-		
+
+		System.out.println(board);
 		assertEquals(
 				new HashSet<Square>(Arrays.asList(
 					new Square('a', 4),
@@ -228,7 +230,6 @@ public class ChessBoardTester extends ChessPieceTester {
 				)),
 				board.threatenedBy(ChessPiece.Color.BLACK));
 
-		System.out.println(board);
 		assertEquals(
 				Arrays.asList(
 					new SimpleMove(board.king(ChessPiece.Color.BLACK), new Square('a', 5))

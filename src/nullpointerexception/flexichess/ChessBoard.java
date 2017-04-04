@@ -251,7 +251,7 @@ public class ChessBoard {
 
     public boolean isInsideBoard(char column, int row) {
         if (column - 'a' >= 0 && column - 'a' < m_board.length &&
-                row >= 0 && row < m_board[0].length)
+                row > 0 && row <= m_board[0].length)
             return true;
 
         return false;
