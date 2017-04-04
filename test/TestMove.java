@@ -1,4 +1,5 @@
-import nullpointerexception.flexichess.*;
+import nullpointerexception.flexichess.ChessBoard;
+import nullpointerexception.flexichess.Move;
 
 public class TestMove implements Move {
 
@@ -20,15 +21,5 @@ public class TestMove implements Move {
 	@Override
 	public void revertSingleMove(ChessBoard board) {
 
-	}
-
-	@Override
-	public ChessPiece acceptPiece(PieceMoveVisitor visitor) {
-		return null;
-	}
-
-	@Override
-	public Square acceptToPosition(PieceMoveVisitor visitor) {
-		return null;
 	}
 }

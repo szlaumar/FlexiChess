@@ -307,9 +307,7 @@ public class ChessBoard {
     public List<Move> validMovesFor(ChessPiece.Color color) {
         List<Move> list = new ArrayList<>();
 
-        System.out.println("validMovesFor()");
         if (king(color).isInCheck()) {
-            System.out.println("isInCheck");
             list.addAll(king(color).validMoves());
             return list;
         }

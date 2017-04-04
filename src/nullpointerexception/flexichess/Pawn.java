@@ -105,7 +105,8 @@ public class Pawn extends ChessPiece {
             direction = 1;
 
         Square upperLeftPosition = new Square((char)(position().column - 1), position().row + direction);
-        if (board().isInsideBoard(upperLeftPosition))
+        if (board().isInsideBoard(upperLeftPosition) && (board().isEmptyAt(upperLeftPosition)
+                || board().pieceAt(upperLeftPosition).color().opposite() == color()))
             return upperLeftPosition;
         return null;
     }
@@ -131,10 +132,10 @@ public class Pawn extends ChessPiece {
             direction = 1;
         }
 
-        char newCol = (char)(position().column + 1);
-        int newRow = position().row + direction;
-        if (board().isInsideBoard(newCol, newRow))
-            return new Square(newCol, newRow);
+        Square upperRightPosition = new Square((char)(position().column + 1), position().row + direction);
+        if (board().isInsideBoard(upperRightPosition) && (board().isEmptyAt(upperRightPosition)
+                || board().pieceAt(upperRightPosition).color().opposite() == color()))
+            return upperRightPosition;
 
         return null;
     }

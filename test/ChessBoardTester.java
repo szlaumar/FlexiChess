@@ -115,40 +115,10 @@ public class ChessBoardTester extends ChessPieceTester {
 		Pawn blackPawn4 = new Pawn(board, ChessPiece.Color.BLACK, 'c', 5);
 		Pawn blackPawn5 = new Pawn(board, ChessPiece.Color.BLACK, 'c', 6);
 
-
 		assertEquals(
-				new HashSet<Square>(Arrays.asList(
-					new Square('a', 1),
-					new Square('a', 2),
+				new HashSet<Square>(Arrays.asList( 
 					new Square('a', 3),
-					new Square('b', 2),
-					new Square('b', 3),
-					new Square('c', 1),
-					new Square('c', 2),
-					new Square('c', 3)
-				)),
-				board.threatenedBy(ChessPiece.Color.WHITE));
-
-		assertEquals(
-				Arrays.asList(
-					new SimpleMove(whitePawn2, new Square('a', 3)),
-					new SimpleMove(whitePawn2, new Square('a', 4)),
-					new SimpleMove(whitePawn3, new Square('b', 3)),
-					new SimpleMove(whitePawn3, new Square('b', 4)),
-					new SimpleMove(whitePawn4, new Square('c', 3)),
-					new SimpleMove(whitePawn4, new Square('c', 4))
-				),
-				sortMoves(board.validMovesFor(ChessPiece.Color.WHITE)));
-
-		assertEquals(
-				new HashSet<Square>(Arrays.asList(
-					new Square('a', 1), 
-					new Square('a', 2), 
-					new Square('a', 3),
-					new Square('b', 2),
 					new Square('b', 3), 
-					new Square('c', 1),
-					new Square('c', 2),
 					new Square('c', 3) 
 				)), 
 				board.threatenedBy(ChessPiece.Color.WHITE));
@@ -163,17 +133,12 @@ public class ChessBoardTester extends ChessPieceTester {
 					new SimpleMove(whitePawn4, new Square('c', 4))
 				), 
 				sortMoves(board.validMovesFor(ChessPiece.Color.WHITE)));
-
+				
 		assertEquals(
 				new HashSet<Square>(Arrays.asList(
 					new Square('a', 4),
-					new Square('a', 5), 
-					new Square('a', 6),
-					new Square('b', 4), 
-					new Square('b', 5), 
-					new Square('c', 4), 
-					new Square('c', 5),
-					new Square('c', 6)
+					new Square('b', 4),  
+					new Square('c', 4)
 				)), 
 				board.threatenedBy(ChessPiece.Color.BLACK));
 		
@@ -187,24 +152,20 @@ public class ChessBoardTester extends ChessPieceTester {
 					new SimpleMove(blackPawn4, new Square('c', 4))
 				), 
 				sortMoves(board.validMovesFor(ChessPiece.Color.BLACK)));
-		
+
 		Move move = sortMoves(whitePawn3.validMoves()).get(1);
 		move.executeOnBoard(board);
 		move = sortMoves(whitePawn3.validMoves()).get(0);
 		move.executeOnBoard(board);
 
 		assertEquals(
-				new HashSet<Square>(Arrays.asList(
-					new Square('a', 1),
-					new Square('a', 2),
+				new HashSet<Square>(Arrays.asList( 
 					new Square('b', 2),
 					new Square('b', 3),
-					new Square('b', 6),
-					new Square('c', 1),
-					new Square('c', 2)
-				)),
+					new Square('b', 6)
+				)), 
 				board.threatenedBy(ChessPiece.Color.WHITE));
-
+		
 		assertEquals(
 				Arrays.asList(
 					new SimpleMove(board.king(ChessPiece.Color.WHITE), new Square('b', 2)),
@@ -212,20 +173,16 @@ public class ChessBoardTester extends ChessPieceTester {
 					new SimpleMove(whitePawn2, new Square('a', 4)),
 					new SimpleMove(whitePawn4, new Square('c', 3)),
 					new SimpleMove(whitePawn4, new Square('c', 4))
-				),
+				), 
 				sortMoves(board.validMovesFor(ChessPiece.Color.WHITE)));
-
+		
 		assertEquals(
 				new HashSet<Square>(Arrays.asList(
 					new Square('a', 4),
 					new Square('a', 5),
-					new Square('a', 6),
 					new Square('b', 4),
-					new Square('b', 5),
-					new Square('c', 4),
-					new Square('c', 5),
-					new Square('c', 6)
-				)),
+					new Square('c', 4)
+				)), 
 				board.threatenedBy(ChessPiece.Color.BLACK));
 
 		assertEquals(
