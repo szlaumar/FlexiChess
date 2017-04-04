@@ -25,6 +25,20 @@ public class Pawn extends ChessPiece {
     }
 
     @Override
+    public List<Square> threatens() {
+        if (isOffBoard())
+            return Collections.emptyList();
+
+        List<Square> list = new ArrayList<>();
+        if (goDiagonalLeft() != null)
+            list.add(goDiagonalLeft());
+        if (goDiagonalRight() != null)
+            list.add(goDiagonalRight());
+
+        return list;
+    }
+
+    @Override
     public List<Move> validMoves() {
         if (isOffBoard())
             return Collections.emptyList();
@@ -34,10 +48,10 @@ public class Pawn extends ChessPiece {
             list.add(new SimpleMove(this, canGoStraight()));
         if (canGoStraightBy2() != null)
             list.add(new SimpleMove(this, canGoStraightBy2()));
-        if (canGoDiagonalLeft() != null)
-            list.add(new SimpleMove(this, canGoDiagonalLeft()));
-        if (canGoDiagonalRight() != null)
-            list.add(new SimpleMove(this, canGoDiagonalRight()));
+        if (goDiagonalLeftValid() != null )
+            list.add(new SimpleMove(this, goDiagonalLeftValid()));
+        if (goDiagonalRightValid() != null)
+            list.add(new SimpleMove(this, goDiagonalRightValid()));
 
         return list;
     }
@@ -54,8 +68,9 @@ public class Pawn extends ChessPiece {
             direction = 1;
 
         Square newPosition = new Square(position().column, position().row + direction);
-        if (board().isInsideBoard(newPosition) && board().isEmptyAt(position()))
-            return newPosition;
+        if (board().isInsideBoard(newPosition) && board().isEmptyAt(newPosition) && board().isEmptyAt(newPosition))
+                return newPosition;
+
         return null;
     }
 
@@ -81,16 +96,25 @@ public class Pawn extends ChessPiece {
      *
      * @return  Square of the new position if possible to go there, null if not possible.
      */
-    private Square canGoDiagonalLeft() {
+    private Square goDiagonalLeft() {
         int direction = - 1;
 
         if (color() == Color.WHITE)
             direction = 1;
 
         Square upperLeftPosition = new Square((char)(position().column - 1), position().row + direction);
-        if (board().isInsideBoard(upperLeftPosition) && isEnemyPiece(upperLeftPosition))
+        if (board().isInsideBoard(upperLeftPosition))
             return upperLeftPosition;
         return null;
+    }
+
+    private Square goDiagonalLeftValid() {
+        Square square = goDiagonalLeft();
+        if (square != null && !board().isEmptyAt(square) && board().pieceAt(square).color().opposite() == color()
+                && board().pieceAt(square).letter() != 'K')
+            return square;
+        else
+            return null;
     }
 
     /**
@@ -98,30 +122,28 @@ public class Pawn extends ChessPiece {
      *
      * @return  Square of the new position if possible to go there, null if not possible.
      */
-    private Square canGoDiagonalRight() {
+    private Square goDiagonalRight() {
         int direction = - 1;
 
-        if (color() == Color.WHITE)
+        if (color() == Color.WHITE) {
             direction = 1;
+        }
 
-        Square upperRightPosition = new Square((char)(position().column + 1), position().row + direction);
-        if (board().isInsideBoard(upperRightPosition) && isEnemyPiece(upperRightPosition))
-            return upperRightPosition;
+        char newCol = (char)(position().column + 1);
+        int newRow = position().row + direction;
+        if (board().isInsideBoard(newCol, newRow - 1))
+            return new Square(newCol, newRow);
+
         return null;
     }
 
-    @Override
-    public List<Square> threatens() {
-        if (isOffBoard())
-            return Collections.emptyList();
-
-        List<Square> list = new ArrayList<>();
-        if (canGoDiagonalLeft() != null)
-            list.add(canGoDiagonalLeft());
-        if (canGoDiagonalRight() != null)
-            list.add(canGoDiagonalRight());
-
-        return list;
+    private Square goDiagonalRightValid() {
+        Square square = goDiagonalRight();
+        if (square != null && !board().isEmptyAt(square) && board().pieceAt(square).color().opposite() == color()
+                && board().pieceAt(square).letter() != 'K')
+            return square;
+        else
+            return null;
     }
 
     @Override

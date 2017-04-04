@@ -30,8 +30,8 @@ public class ChessBoard {
 
     public ChessBoard(int columns, int rows, Square whiteKingPos, Square blackKingPos) {
         this(columns, rows);
-        putPiece(whiteKingPos.column, whiteKingPos.row,
-                new King(this, ChessPiece.Color.WHITE, whiteKingPos.column, whiteKingPos.row));
+        new King(this, ChessPiece.Color.WHITE, whiteKingPos.column, whiteKingPos.row);
+        new King(this, ChessPiece.Color.BLACK, blackKingPos.column, blackKingPos.row);
     }
 
     /**
@@ -270,7 +270,7 @@ public class ChessBoard {
 
         for (ChessPiece[] column : m_board)
             for (ChessPiece piece : column)
-                if (piece.color() == color)
+                if (piece != null && piece.color() == color)
                     list.add(piece);
 
         return list;
@@ -302,6 +302,13 @@ public class ChessBoard {
 
     public List<Move> validMovesFor(ChessPiece.Color color) {
         List<Move> list = new ArrayList<>();
+
+        System.out.println("validMovesFor()");
+        if (king(color).isInCheck()) {
+            System.out.println("isInCheck");
+            list.addAll(king(color).validMoves());
+            return list;
+        }
 
         for (ChessPiece piece : onBoardPieces(color))
             list.addAll(piece.validMoves());
