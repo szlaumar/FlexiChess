@@ -43,21 +43,46 @@ public class King extends ChessPiece {
         List<Move> list = new ArrayList<>();
 
         for (int i = -1; i < 2; i++)
-            for (int j = -1; j < 2; j++) {
+            for (int j = -1; j < 2; j++)
                 addMoveToList(i, j, list);
-            }
+
+        return list;
+    }
+
+    public List<Move> checkAllMoves() {
+        List<Move> list = new ArrayList<>();
+
+        for (int i = -1; i < 2; i++)
+            for (int j = -1; j < 2; j++)
+                checkAddMoveToList(i, j, list);
 
         return list;
     }
 
     private void addMoveToList(int i, int j, List<Move> list) {
-        char newCol = (char)(position().column + i);
-        int newRow = position().row + j;
+        Square newSquare = new Square((char)(position().column + i), position().row + j);
 
-        if ((i == 0 && j == 0) || !board().isInsideBoard(newCol, newRow))
+        if ((i == 0 && j == 0) || !board().isInsideBoard(newSquare) || isInCheck(newSquare))
             return;
 
-        list.add(new SimpleMove(this, new Square(newCol, newRow)));
+        list.add(new SimpleMove(this, newSquare));
+    }
+
+    private void checkAddMoveToList(int i, int j, List<Move> list) {
+        Square newSquare = new Square((char)(position().column + i), position().row + j);
+
+        if ((i == 0 && j == 0) || !board().isInsideBoard(newSquare))
+            return;
+
+        list.add(new SimpleMove(this, newSquare));
+    }
+
+    public boolean isInCheck(Square validatePosition) {
+        for (Square square : this.board().threatenedBy(color().opposite()))
+            if (validatePosition.equals(square))
+                return true;
+
+        return false;
     }
 
     @Override
@@ -65,7 +90,7 @@ public class King extends ChessPiece {
         List<Square> list = new ArrayList<>();
         PieceMoveVisitor visitor = new PieceMoveVisitor();
 
-        for (Move move : allMoves())
+        for (Move move : checkAllMoves())
                 list.add(move.acceptToPosition(visitor));
 
         return list;
@@ -77,12 +102,7 @@ public class King extends ChessPiece {
     }
 
     public boolean isInCheck() {
-        for (Square square : this.board().threatenedBy(color().opposite())) {
-            if (position().equals(square))
-                return true;
-        }
-
-        return false;
+        return isInCheck(position());
     }
 
     /**

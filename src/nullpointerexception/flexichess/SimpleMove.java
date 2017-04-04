@@ -15,8 +15,8 @@ import java.util.Objects;
 public class SimpleMove implements Move{
     private ChessPiece piece;
     private Square from, to;
-    
-    
+    boolean capturing;
+
     
     public SimpleMove(ChessPiece piece, Square to){
         this.piece = piece;
@@ -43,12 +43,14 @@ public class SimpleMove implements Move{
      */
     @Override
     public void executeOnBoard(ChessBoard board) {
-        if (!piece.validMoves().contains(this))
-            return;
+//        if (!piece.validMoves().contains(this))
+//            return;
+        capturing = isCapturing();
 
         if (!board.isEmptyAt(to))
             board.capturePieceAt(to);
 
+        board.addPlayedMove(this);
         board.moveTo(from, to);
     }
 
@@ -61,10 +63,10 @@ public class SimpleMove implements Move{
 
         do {
             move = board.getPlayedMoves().pollLast();
-            if (move == this)
-                return;
 
-            revertSingleMove(board);
+            move.revertSingleMove(board);
+            if (equals(move))
+                return;
         } while (true);
     }
 
@@ -76,18 +78,15 @@ public class SimpleMove implements Move{
      */
     @Override
     public void revertSingleMove(ChessBoard board) {
-        if (!piece.validMoves().contains(new SimpleMove(piece, from)))
-            throw new IllegalStateException("Can't revert this move");
+//        if (!piece.validMoves().contains(new SimpleMove(piece, from)))
+//            throw new IllegalStateException("Can't revert this move");
+        board.moveTo(to, from);
+        piece.decrementMoveCounter();
 
-        // piece is on board
-        if (board.onBoardPieces().contains(piece)) {
-            board.moveTo(to, from);
-            piece.decrementMoveCounter();
-        }
-        // piece got captured
-        else {
-            board.putPiece(from.column, from.row, piece);
-            board.capturedPieces(piece.color()).remove(piece);
+        if (capturing) {
+            ChessPiece capturedPiece = board.capturedPieces(piece.color().opposite()).remove(board.capturedPieces().size() - 1);
+            board.removeCapturedPiece();
+            board.putPiece(to.column, to.row, capturedPiece);
         }
 
         piece.decrementMoveCounter();
@@ -100,8 +99,8 @@ public class SimpleMove implements Move{
     
     @Override
     public String notation(){
-        return isCapturing()? String.format("%c%s-%s", piece.letter(), from, to) :
-            String.format("%c%s-x%s", piece.letter(), from, to);
+        return isCapturing()? String.format("%c%s-x%s", piece.letter(), from, to) :
+                String.format("%c%s-%s", piece.letter(), from, to);
     }
 
     @Override
