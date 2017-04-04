@@ -53,19 +53,11 @@ public class SimpleMove implements Move{
     }
 
     /**
-     * Vrátí šachovnici přesně do takového stavu, v jakém byla po provedení tohoto tahu.
+     * Vrátí šachovnici přesně do takového stavu, v jakém byla před provedením tohoto tahu.
      */
     @Override
     public void revertOnBoard(ChessBoard board) {
-        Move move;
-
-        do {
-            move = board.getPlayedMoves().pollLast();
-
-            move.revertSingleMove(board);
-            if (equals(move))
-                return;
-        } while (true);
+        revertSingleMove(board);
     }
 
     /**
@@ -74,8 +66,7 @@ public class SimpleMove implements Move{
      *
      * @param board
      */
-    @Override
-    public void revertSingleMove(ChessBoard board) {
+    private void revertSingleMove(ChessBoard board) {
         board.moveTo(to, from);
         piece.decrementMoveCounter();
 

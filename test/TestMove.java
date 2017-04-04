@@ -17,9 +17,4 @@ public class TestMove implements Move {
 	public String notation() {
 		return null;
 	}
-
-	@Override
-	public void revertSingleMove(ChessBoard board) {
-
-	}
 }
