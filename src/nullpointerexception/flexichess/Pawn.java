@@ -94,7 +94,7 @@ public class Pawn extends ChessPiece {
     }
 
     /**
-     * Checks if it is possible to go to the upper right square (capture enemy).
+     * Checks if it is theoretically possible to go to the upper right square (not checking if enemy there).
      *
      * @return  Square of the new position if possible to go there, null if not possible.
      */
@@ -111,6 +111,10 @@ public class Pawn extends ChessPiece {
         return null;
     }
 
+    /**
+     * Same as goDiagonalLeft() + checking if there is enemy piece.
+     * @return
+     */
     private Square goDiagonalLeftValid() {
         Square square = goDiagonalLeft();
         if (square != null && !board().isEmptyAt(square) && board().pieceAt(square).color().opposite() == color()
@@ -121,7 +125,7 @@ public class Pawn extends ChessPiece {
     }
 
     /**
-     * Checks if it is possible to go to the upper right square (capture enemy).
+     * Checks if it is possible to go to the upper right square (not checking if enemy there).
      *
      * @return  Square of the new position if possible to go there, null if not possible.
      */
@@ -140,6 +144,10 @@ public class Pawn extends ChessPiece {
         return null;
     }
 
+    /**
+     * Same as goDiagonalRight() + checking if there is enemy piece.
+     * @return
+     */
     private Square goDiagonalRightValid() {
         Square square = goDiagonalRight();
         if (square != null && !board().isEmptyAt(square) && board().pieceAt(square).color().opposite() == color()
