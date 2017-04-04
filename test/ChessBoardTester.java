@@ -1,254 +1,239 @@
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.util.Arrays;
-import java.util.EmptyStackException;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
 
 import org.junit.Test;
 
-import nullpointerexception.flexichess.Bishop;
 import nullpointerexception.flexichess.ChessBoard;
 import nullpointerexception.flexichess.ChessPiece;
-import nullpointerexception.flexichess.King;
-import nullpointerexception.flexichess.Knight;
+import nullpointerexception.flexichess.Move;
 import nullpointerexception.flexichess.Pawn;
-import nullpointerexception.flexichess.Queen;
-import nullpointerexception.flexichess.Rook;
+import nullpointerexception.flexichess.SimpleMove;
 import nullpointerexception.flexichess.Square;
 
-public class ChessBoardTester {
+public class ChessBoardTester extends ChessPieceTester {
 	
-	@Test
-	public void square() {
-		Square square1 = new Square('b', 12);
-		Square square2 = new Square("b12");
-		
-		assertEquals('b', square1.column);
-		assertEquals(12, square1.row);
-		assertEquals('b', square2.column);
-		assertEquals(12, square2.row);
-		
-		assertEquals(square1, square2);
-		assertEquals(square1.hashCode(), square2.hashCode());
+	private class ChessPieceComparator implements Comparator<ChessPiece> {
+		@Override
+		public int compare(ChessPiece p1, ChessPiece p2) {
+			return p1.position().toString().compareTo(p2.position().toString());
+		}	
+	}
+	
+	private List<ChessPiece> sortPieces(List<ChessPiece> pieces) {
+		pieces.sort(new ChessPieceComparator());
+		return pieces;
 	}
 	
 	@Test
-	public void chessPiece() {
-		ChessBoard board = new ChessBoard(4, 3);
-		
-		ChessPiece pieceWOn = new TestPiece(board, ChessPiece.Color.WHITE, 'a', 1);
-		ChessPiece pieceWOff = new TestPiece(board, ChessPiece.Color.WHITE);
-		
-		assertEquals(ChessPiece.Color.WHITE, pieceWOn.color());
-		assertEquals(ChessPiece.Color.WHITE, pieceWOff.color());
-		assertEquals('T', pieceWOn.letter());		
-		assertEquals('T', pieceWOff.letter());
-		assertEquals("+T", pieceWOn.symbol());
-		assertEquals("+T", pieceWOff.symbol());
-		assertEquals("+T", pieceWOn.toString());
-		assertEquals("+T", pieceWOff.toString());
-		assertEquals(pieceWOn.symbol(), pieceWOn.toString());
-		assertEquals(pieceWOff.symbol(), pieceWOff.toString());
-		assertFalse(pieceWOn.isOffBoard());
-		assertTrue(pieceWOff.isOffBoard());		
-		assertEquals(pieceWOn.position(), new Square('a', 1));
-		try{ pieceWOff.position(); fail(); } catch(IllegalStateException e) {};				
-		try{ pieceWOn.setPosition(null); fail(); } catch(NullPointerException e) {};
-		try{ pieceWOff.setPosition(null); fail(); } catch(NullPointerException e) {};
-		
-		ChessPiece pieceBOn = new TestPiece(board, ChessPiece.Color.BLACK, 'b', 2);				
-		ChessPiece pieceBOff = new TestPiece(board, ChessPiece.Color.BLACK);
-		
-		assertEquals(ChessPiece.Color.BLACK, pieceBOn.color());
-		assertEquals(ChessPiece.Color.BLACK, pieceBOff.color());
-		assertEquals('T', pieceBOn.letter());		
-		assertEquals('T', pieceBOff.letter());
-		assertEquals("-T", pieceBOn.symbol());
-		assertEquals("-T", pieceBOff.symbol());
-		assertEquals("-T", pieceBOn.toString());
-		assertEquals("-T", pieceBOff.toString());
-		assertEquals(pieceBOn.symbol(), pieceBOn.toString());
-		assertEquals(pieceBOff.symbol(), pieceBOff.toString());
-		assertFalse(pieceBOn.isOffBoard());
-		assertTrue(pieceBOff.isOffBoard());		
-		assertEquals(pieceBOn.position(), new Square('b', 2));
-		try{ pieceBOff.position(); fail(); } catch(IllegalStateException e) {};
-		try{ pieceBOn.setPosition(null); fail(); } catch(NullPointerException e) {};
-		try{ pieceBOff.setPosition(null); fail(); } catch(NullPointerException e) {};
-		
-		Square square = new Square('a', 2);
-		pieceWOff.setPosition(square);		
-		assertSame(square, pieceWOff.position());
-		assertFalse(pieceWOff.isOffBoard());		
-		pieceWOff.setOffBoard();				
-		try{ pieceWOff.position(); fail(); } catch(IllegalStateException e) {};
-		assertTrue(pieceWOff.isOffBoard());
-		
-		pieceBOff.setPosition('a', 2);		
-		assertEquals(square, pieceBOff.position());
-		assertFalse(pieceBOff.isOffBoard());		
-		pieceBOff.setOffBoard();				
-		try{ pieceBOff.position(); fail(); } catch(IllegalStateException e) {};
-		assertTrue(pieceBOff.isOffBoard());
+	public void isideBoard() {
+		ChessBoard board = new ChessBoard(3, 6, 
+				new Square('b', 1), new Square('b', 6));
+		assertTrue(board.isInsideBoard('a', 1));
+		assertTrue(board.isInsideBoard('b', 2));
+		assertTrue(board.isInsideBoard('c', 3));
+		assertFalse(board.isInsideBoard('a', 0));
+		assertFalse(board.isInsideBoard('a', 7));
+		assertFalse(board.isInsideBoard('d', 1));
+		assertFalse(board.isInsideBoard('d', 6));
+		assertFalse(board.isInsideBoard('x', 1));
+		assertFalse(board.isInsideBoard(' ', 3));
 	}
 	
 	@Test
-	public void chessBoard() {
-		ChessBoard board = new ChessBoard(6, 2);
-		assertSame(6, board.columns());
-		assertSame(2, board.rows());
+	public void piecesList() {
+		ChessBoard board = new ChessBoard(3, 6, 
+				new Square('b', 1), new Square('b', 6));
+		Pawn whitePawn1 = new Pawn(board, ChessPiece.Color.WHITE, 'a', 1);
+		Pawn whitePawn2 = new Pawn(board, ChessPiece.Color.WHITE, 'a', 2);
+		Pawn whitePawn3 = new Pawn(board, ChessPiece.Color.WHITE, 'b', 2);
+		Pawn whitePawn4 = new Pawn(board, ChessPiece.Color.WHITE, 'c', 2);
+		Pawn whitePawn5 = new Pawn(board, ChessPiece.Color.WHITE, 'c', 1);
 		
-		ChessPiece pieceA1 = new Pawn(board, ChessPiece.Color.WHITE, 'a', 1);
-		ChessPiece pieceB1 = new Knight(board, ChessPiece.Color.WHITE, 'b', 1);
-		ChessPiece pieceC1 = new Bishop(board, ChessPiece.Color.WHITE, 'c', 1);
-		ChessPiece pieceD1 = new Rook(board, ChessPiece.Color.WHITE, 'd', 1);
-		ChessPiece pieceE1 = new Queen(board, ChessPiece.Color.WHITE, 'e', 1);
-		ChessPiece pieceF1 = new King(board, ChessPiece.Color.WHITE, 'f', 1);
+		Pawn blackPawn1 = new Pawn(board, ChessPiece.Color.BLACK, 'a', 6);
+		Pawn blackPawn2 = new Pawn(board, ChessPiece.Color.BLACK, 'a', 5);
+		Pawn blackPawn3 = new Pawn(board, ChessPiece.Color.BLACK, 'b', 5);
+		Pawn blackPawn4 = new Pawn(board, ChessPiece.Color.BLACK, 'c', 5);
+		Pawn blackPawn5 = new Pawn(board, ChessPiece.Color.BLACK, 'c', 6);
 		
-		ChessPiece pieceA2 = new Pawn(board, ChessPiece.Color.BLACK, 'a', 2);
-		ChessPiece pieceB2 = new Knight(board, ChessPiece.Color.BLACK, 'b', 2);
-		ChessPiece pieceC2 = new Bishop(board, ChessPiece.Color.BLACK, 'c', 2);
-		ChessPiece pieceD2 = new Rook(board, ChessPiece.Color.BLACK, 'd', 2);
-		ChessPiece pieceE2 = new Queen(board, ChessPiece.Color.BLACK, 'e', 2);
-		ChessPiece pieceF2 = new King(board, ChessPiece.Color.BLACK, 'f', 2);
+		assertEquals(
+				Arrays.asList(
+					whitePawn1,
+					whitePawn2,
+					board.king(ChessPiece.Color.WHITE),
+					whitePawn3,					
+					whitePawn5,
+					whitePawn4
+				), 
+				sortPieces(board.onBoardPieces(ChessPiece.Color.WHITE)));
 		
-		String expected =    
-				"   ┌───┬───┬───┬───┬───┬───┐\n" +
-				" 2 │-P │-S │-B │-R │-Q │-K │\n" +
-				"   ├───┼───┼───┼───┼───┼───┤\n" +
-				" 1 │+P │+S │+B │+R │+Q │+K │\n" +
-				"   └───┴───┴───┴───┴───┴───┘\n" +
-				"     a   b   c   d   e   f \n" +
-				"W+:\n" +
-				"B-:";
-		assertEquals(expected, board.toString());
+		assertEquals(
+				Arrays.asList(
+					blackPawn2,
+					blackPawn1,
+					blackPawn3,
+					board.king(ChessPiece.Color.BLACK),										
+					blackPawn4,
+					blackPawn5
+				), 
+				sortPieces(board.onBoardPieces(ChessPiece.Color.BLACK)));
 		
-		assertSame(pieceA1, board.pieceAt('a', 1));
-		assertSame(pieceB1, board.pieceAt('b', 1));
-		assertSame(pieceC1, board.pieceAt('c', 1));
-		assertSame(pieceD1, board.pieceAt('d', 1));
-		assertSame(pieceE1, board.pieceAt('e', 1));
-		assertSame(pieceF1, board.pieceAt('f', 1));
-		
-		assertSame(pieceA2, board.pieceAt('a', 2));
-		assertSame(pieceB2, board.pieceAt('b', 2));
-		assertSame(pieceC2, board.pieceAt('c', 2));
-		assertSame(pieceD2, board.pieceAt('d', 2));
-		assertSame(pieceE2, board.pieceAt('e', 2));
-		assertSame(pieceF2, board.pieceAt('f', 2));		
+		assertEquals(
+				Arrays.asList(
+					whitePawn1,
+					whitePawn2,
+					blackPawn2,
+					blackPawn1,
+					board.king(ChessPiece.Color.WHITE),
+					whitePawn3,
+					blackPawn3,
+					board.king(ChessPiece.Color.BLACK),										
+					whitePawn5,
+					whitePawn4,
+					blackPawn4,
+					blackPawn5
+				), 
+				sortPieces(board.onBoardPieces()));
 	}
 	
 	@Test
-	public void movingAndCapturig() {
-		ChessBoard board = new ChessBoard(6, 2);
+	public void gamePlay() {
+		ChessBoard board = new ChessBoard(3, 6, 
+				new Square('b', 1), new Square('b', 6));
+		Pawn whitePawn1 = new Pawn(board, ChessPiece.Color.WHITE, 'a', 1);
+		Pawn whitePawn2 = new Pawn(board, ChessPiece.Color.WHITE, 'a', 2);
+		Pawn whitePawn3 = new Pawn(board, ChessPiece.Color.WHITE, 'b', 2);
+		Pawn whitePawn4 = new Pawn(board, ChessPiece.Color.WHITE, 'c', 2);
+		Pawn whitePawn5 = new Pawn(board, ChessPiece.Color.WHITE, 'c', 1);
 		
-		ChessPiece pieceA1 = new Pawn(board, ChessPiece.Color.WHITE, 'a', 1);
-		ChessPiece pieceB1 = new Knight(board, ChessPiece.Color.WHITE, 'b', 1);
-		ChessPiece pieceC1 = new Bishop(board, ChessPiece.Color.WHITE, 'c', 1);
-		ChessPiece pieceD1 = new Rook(board, ChessPiece.Color.WHITE, 'd', 1);
-		ChessPiece pieceE1 = new Queen(board, ChessPiece.Color.WHITE, 'e', 1);
-		ChessPiece pieceF1 = new King(board, ChessPiece.Color.WHITE, 'f', 1);
-		
-		ChessPiece pieceA2 = new Pawn(board, ChessPiece.Color.BLACK, 'a', 2);
-		ChessPiece pieceB2 = new Knight(board, ChessPiece.Color.BLACK, 'b', 2);
-		ChessPiece pieceC2 = new Bishop(board, ChessPiece.Color.BLACK, 'c', 2);
-		ChessPiece pieceD2 = new Rook(board, ChessPiece.Color.BLACK, 'd', 2);
-		ChessPiece pieceE2 = new Queen(board, ChessPiece.Color.BLACK, 'e', 2);
-		ChessPiece pieceF2 = new King(board, ChessPiece.Color.BLACK, 'f', 2);
-		
-		board.capturePieceAt('a', 1);
-		board.capturePieceAt('f', 2);
-		board.capturePieceAt('b', 1);
-		board.capturePieceAt('e', 2);
-		board.capturePieceAt('c', 1);
-		board.capturePieceAt('d', 2);
-		
-		String expected =    
-				"   ┌───┬───┬───┬───┬───┬───┐\n" +
-				" 2 │-P │-S │-B │   │   │   │\n" +
-				"   ├───┼───┼───┼───┼───┼───┤\n" +
-				" 1 │   │   │   │+R │+Q │+K │\n" +
-				"   └───┴───┴───┴───┴───┴───┘\n" +
-				"     a   b   c   d   e   f \n" +
-				"W+: P S B\n" +
-				"B-: K Q R";
-		assertEquals(expected, board.toString());
+		Pawn blackPawn1 = new Pawn(board, ChessPiece.Color.BLACK, 'a', 6);
+		Pawn blackPawn2 = new Pawn(board, ChessPiece.Color.BLACK, 'a', 5);
+		Pawn blackPawn3 = new Pawn(board, ChessPiece.Color.BLACK, 'b', 5);
+		Pawn blackPawn4 = new Pawn(board, ChessPiece.Color.BLACK, 'c', 5);
+		Pawn blackPawn5 = new Pawn(board, ChessPiece.Color.BLACK, 'c', 6);
+
+
+		assertEquals(
+				new HashSet<Square>(Arrays.asList(
+					new Square('a', 1),
+					new Square('a', 2),
+					new Square('a', 3),
+					new Square('b', 2),
+					new Square('b', 3),
+					new Square('c', 1),
+					new Square('c', 2),
+					new Square('c', 3)
+				)),
+				board.threatenedBy(ChessPiece.Color.WHITE));
+
+		assertEquals(
+				Arrays.asList(
+					new SimpleMove(whitePawn2, new Square('a', 3)),
+					new SimpleMove(whitePawn2, new Square('a', 4)),
+					new SimpleMove(whitePawn3, new Square('b', 3)),
+					new SimpleMove(whitePawn3, new Square('b', 4)),
+					new SimpleMove(whitePawn4, new Square('c', 3)),
+					new SimpleMove(whitePawn4, new Square('c', 4))
+				),
+				sortMoves(board.validMovesFor(ChessPiece.Color.WHITE)));
+
+		assertEquals(
+				new HashSet<Square>(Arrays.asList(
+					new Square('a', 1), 
+					new Square('a', 2), 
+					new Square('a', 3),
+					new Square('b', 2),
+					new Square('b', 3), 
+					new Square('c', 1),
+					new Square('c', 2),
+					new Square('c', 3) 
+				)), 
+				board.threatenedBy(ChessPiece.Color.WHITE));
 		
 		assertEquals(
 				Arrays.asList(
-						pieceA1, pieceF2, pieceB1,
-						pieceE2, pieceC1, pieceD2),
-				board.capturedPieces());
+					new SimpleMove(whitePawn2, new Square('a', 3)),
+					new SimpleMove(whitePawn2, new Square('a', 4)),
+					new SimpleMove(whitePawn3, new Square('b', 3)),
+					new SimpleMove(whitePawn3, new Square('b', 4)),
+					new SimpleMove(whitePawn4, new Square('c', 3)),
+					new SimpleMove(whitePawn4, new Square('c', 4))
+				), 
+				sortMoves(board.validMovesFor(ChessPiece.Color.WHITE)));
+		
+		assertEquals(
+				new HashSet<Square>(Arrays.asList(
+					new Square('a', 4),
+					new Square('a', 5), 
+					new Square('a', 6),
+					new Square('b', 4), 
+					new Square('b', 5), 
+					new Square('c', 4), 
+					new Square('c', 5),
+					new Square('c', 6)
+				)), 
+				board.threatenedBy(ChessPiece.Color.BLACK));
+		
 		assertEquals(
 				Arrays.asList(
-						pieceA1, pieceB1, pieceC1),
-				board.capturedPieces(ChessPiece.Color.WHITE));
+					new SimpleMove(blackPawn2, new Square('a', 3)),
+					new SimpleMove(blackPawn2, new Square('a', 4)),
+					new SimpleMove(blackPawn3, new Square('b', 3)),
+					new SimpleMove(blackPawn3, new Square('b', 4)),
+					new SimpleMove(blackPawn4, new Square('c', 3)),
+					new SimpleMove(blackPawn4, new Square('c', 4))
+				), 
+				sortMoves(board.validMovesFor(ChessPiece.Color.BLACK)));
+		
+		Move move = sortMoves(whitePawn3.validMoves()).get(1);
+		move.executeOnBoard(board);
+		move = sortMoves(whitePawn3.validMoves()).get(0);
+		move.executeOnBoard(board);
+
+		assertEquals(
+				new HashSet<Square>(Arrays.asList(
+					new Square('a', 1),
+					new Square('a', 2),
+					new Square('b', 2),
+					new Square('b', 3),
+					new Square('b', 6),
+					new Square('c', 1),
+					new Square('c', 2)
+				)),
+				board.threatenedBy(ChessPiece.Color.WHITE));
+
 		assertEquals(
 				Arrays.asList(
-						pieceF2, pieceE2, pieceD2),
-				board.capturedPieces(ChessPiece.Color.BLACK));
-		
-		board.moveTo('a', 2, 'f', 2);
-		board.moveTo('b', 2, 'e', 2);
-		board.moveTo('c', 2, 'd', 2);
-		board.moveTo('f', 1, 'a', 1);
-		board.moveTo('e', 1, 'b', 1);
-		board.moveTo('d', 1, 'c', 1);
-		
-		expected =    
-				"   ┌───┬───┬───┬───┬───┬───┐\n" +
-				" 2 │   │   │   │-B │-S │-P │\n" +
-				"   ├───┼───┼───┼───┼───┼───┤\n" +
-				" 1 │+K │+Q │+R │   │   │   │\n" +
-				"   └───┴───┴───┴───┴───┴───┘\n" +
-				"     a   b   c   d   e   f \n" +
-				"W+: P S B\n" +
-				"B-: K Q R";
-		assertEquals(expected, board.toString());
-		
-		try{ board.moveTo('a', 1, 'd', 2); fail(); } catch(IllegalStateException e) {};
-		try{ board.moveTo('b', 1, 'e', 2); fail(); } catch(IllegalStateException e) {};
-		try{ board.moveTo('c', 1, 'f', 2); fail(); } catch(IllegalStateException e) {};
-		try{ board.moveTo('a', 2, 'd', 1); fail(); } catch(IllegalStateException e) {};
-		try{ board.moveTo('b', 2, 'e', 1); fail(); } catch(IllegalStateException e) {};
-		try{ board.moveTo('c', 2, 'f', 1); fail(); } catch(IllegalStateException e) {};
-		try{ board.capturePieceAt('a', 2); fail(); } catch(IllegalStateException e) {};
-		try{ board.capturePieceAt('b', 2); fail(); } catch(IllegalStateException e) {};
-		try{ board.capturePieceAt('c', 2); fail(); } catch(IllegalStateException e) {};
-		
-		expected =    
-				"   ┌───┬───┬───┬───┬───┬───┐\n" +
-				" 2 │   │   │   │-B │-S │-P │\n" +
-				"   ├───┼───┼───┼───┼───┼───┤\n" +
-				" 1 │+K │+Q │+R │   │   │   │\n" +
-				"   └───┴───┴───┴───┴───┴───┘\n" +
-				"     a   b   c   d   e   f \n" +
-				"W+: P S B\n" +
-				"B-: K Q R";
-		assertEquals(expected, board.toString());
-		
-		board.returnLastCapturedTo('a', 2);
-		board.returnLastCapturedTo('b', 2);
-		board.returnLastCapturedTo('c', 2);
-		board.returnLastCapturedTo('d', 1);
-		board.returnLastCapturedTo('e', 1);
-		board.returnLastCapturedTo('f', 1);
-		
-		expected =    
-				"   ┌───┬───┬───┬───┬───┬───┐\n" +
-				" 2 │-R │+B │-Q │-B │-S │-P │\n" +
-				"   ├───┼───┼───┼───┼───┼───┤\n" +
-				" 1 │+K │+Q │+R │+S │-K │+P │\n" +
-				"   └───┴───┴───┴───┴───┴───┘\n" +
-				"     a   b   c   d   e   f \n" +
-				"W+:\n" +
-				"B-:";
-		assertEquals(expected, board.toString());
-		
-		board.emptySquare('a', 1);
-		try{ board.returnLastCapturedTo('a', 1); fail(); } catch(EmptyStackException e) {};
+					new SimpleMove(board.king(ChessPiece.Color.WHITE), new Square('b', 2)),
+					new SimpleMove(whitePawn2, new Square('a', 3)),
+					new SimpleMove(whitePawn2, new Square('a', 4)),
+					new SimpleMove(whitePawn4, new Square('c', 3)),
+					new SimpleMove(whitePawn4, new Square('c', 4))
+				),
+				sortMoves(board.validMovesFor(ChessPiece.Color.WHITE)));
+
+		assertEquals(
+				new HashSet<Square>(Arrays.asList(
+					new Square('a', 4),
+					new Square('a', 5),
+					new Square('a', 6),
+					new Square('b', 4),
+					new Square('b', 5),
+					new Square('c', 4),
+					new Square('c', 5),
+					new Square('c', 6)
+				)),
+				board.threatenedBy(ChessPiece.Color.BLACK));
+
+		System.out.println(board);
+		assertEquals(
+				Arrays.asList(
+					new SimpleMove(board.king(ChessPiece.Color.BLACK), new Square('a', 5))
+				), 
+				board.validMovesFor(ChessPiece.Color.BLACK));
 	}
 }
+
