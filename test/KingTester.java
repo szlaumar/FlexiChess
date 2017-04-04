@@ -1,12 +1,14 @@
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import org.junit.Test;
 
 import nullpointerexception.flexichess.ChessBoard;
 import nullpointerexception.flexichess.ChessPiece;
 import nullpointerexception.flexichess.SimpleMove;
+import nullpointerexception.flexichess.Pawn;
 import nullpointerexception.flexichess.Square;
 
 public class KingTester extends ChessPieceTester {
@@ -35,20 +37,20 @@ public class KingTester extends ChessPieceTester {
 					new Square('c', 3)
 				), 
 				sortSquares(board.king(ChessPiece.Color.BLACK).threatens()));
-
+		
 		assertEquals(
 				Arrays.asList(
 					new SimpleMove(board.king(ChessPiece.Color.WHITE), new Square('a', 1)),
 					new SimpleMove(board.king(ChessPiece.Color.WHITE), new Square('c', 1))
 				), 
-				sortMoves(board.king(ChessPiece.Color.WHITE).allMoves()));
+				sortMoves(board.king(ChessPiece.Color.WHITE).validMoves()));
 		
 		assertEquals(
 				Arrays.asList(
 					new SimpleMove(board.king(ChessPiece.Color.BLACK), new Square('a', 3)),
 					new SimpleMove(board.king(ChessPiece.Color.BLACK), new Square('c', 3))
 				), 
-				sortMoves(board.king(ChessPiece.Color.BLACK).allMoves()));
+				sortMoves(board.king(ChessPiece.Color.BLACK).validMoves()));
 	}
 }
 

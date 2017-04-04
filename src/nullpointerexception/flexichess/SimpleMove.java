@@ -43,8 +43,6 @@ public class SimpleMove implements Move{
      */
     @Override
     public void executeOnBoard(ChessBoard board) {
-//        if (!piece.validMoves().contains(this))
-//            return;
         capturing = isCapturing();
 
         if (!board.isEmptyAt(to))
@@ -78,8 +76,6 @@ public class SimpleMove implements Move{
      */
     @Override
     public void revertSingleMove(ChessBoard board) {
-//        if (!piece.validMoves().contains(new SimpleMove(piece, from)))
-//            throw new IllegalStateException("Can't revert this move");
         board.moveTo(to, from);
         piece.decrementMoveCounter();
 
@@ -141,13 +137,4 @@ public class SimpleMove implements Move{
         return notation();
     }
 
-    @Override
-    public ChessPiece acceptPiece(PieceMoveVisitor visitor) {
-        return visitor.visitPiece(this);
-    }
-
-    @Override
-    public Square acceptToPosition(PieceMoveVisitor visitor) {
-        return visitor.visitSquare(this);
-    }
 }

@@ -31,9 +31,7 @@ public class PawnTester extends ChessPieceTester {
 		Pawn blackPawn5 = new Pawn(board, ChessPiece.Color.BLACK, 'c', 6);
 		
 		assertEquals(
-				Arrays.asList(
-					new Square('b', 2)
-				), 
+				Collections.EMPTY_LIST, 
 				sortSquares(whitePawn1.threatens()));		
 		
 		assertEquals(
@@ -44,15 +42,11 @@ public class PawnTester extends ChessPieceTester {
 				sortSquares(whitePawn3.threatens()));
 		
 		assertEquals(
-				Arrays.asList(
-					new Square('b', 2)
-				), 
+				Collections.EMPTY_LIST, 
 				sortSquares(whitePawn5.threatens()));
 		
 		assertEquals(
-				Arrays.asList(
-					new Square('b', 5)
-				), 
+				Collections.EMPTY_LIST, 
 				sortSquares(blackPawn1.threatens()));
 		
 		assertEquals(
@@ -63,16 +57,14 @@ public class PawnTester extends ChessPieceTester {
 				sortSquares(blackPawn3.threatens()));
 		
 		assertEquals(
-				Arrays.asList(
-					new Square('b', 5)
-				), 
+				Collections.EMPTY_LIST, 
 				sortSquares(blackPawn5.threatens()));
 		
 		//----------------------------------------------------------------
-		System.out.println(board);
+		
 		assertEquals(
-				Collections.EMPTY_LIST,
-				sortMoves(board.king(ChessPiece.Color.WHITE).validMoves()));
+				Collections.EMPTY_LIST, 
+				sortMoves(board.king(ChessPiece.Color.WHITE).validMoves()));		
 		
 		assertEquals(
 				Collections.EMPTY_LIST, 
@@ -86,7 +78,7 @@ public class PawnTester extends ChessPieceTester {
 				sortMoves(whitePawn3.validMoves()));
 				
 		assertEquals(
-				Collections.EMPTY_LIST,
+				Collections.EMPTY_LIST, 
 				sortMoves(board.king(ChessPiece.Color.BLACK).validMoves()));
 		
 		assertEquals(
@@ -165,11 +157,10 @@ public class PawnTester extends ChessPieceTester {
 				"     a   b   c \n" +
 				"W+:\n" +
 				"B-: P";
-		assertEquals(expected, board.toString());
+		assertEquals(expected, board.toString());		
 		try{ blackPawn2.threatens(); fail(); } catch(IllegalStateException e) {};
 		try{ blackPawn2.validMoves(); fail(); } catch(IllegalStateException e) {};
-
-		System.out.println(board);
+		
 		assertEquals(Collections.EMPTY_LIST, blackPawn1.validMoves());
 		assertEquals(Collections.EMPTY_LIST, blackPawn3.validMoves());
 		assertEquals(Collections.EMPTY_LIST, blackPawn4.validMoves());

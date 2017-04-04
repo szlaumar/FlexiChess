@@ -27,10 +27,11 @@ public class MoveTester {
 		assertFalse(move.isCapturing());
 		assertEquals("Pc2-c3", move.notation());
 		assertEquals("Pc2-c3", move.toString());
-
+		
 		move.executeOnBoard(board);
-		String expected =
-				"   ┌───┬───┬───┐\n" +
+		
+		String expected = 
+				"   ┌───┬───┬───┐\n" + 
 				" 3 │   │-K │+P │\n" +
 				"   ├───┼───┼───┤\n" +
 				" 2 │-P │   │   │\n" +
@@ -42,7 +43,7 @@ public class MoveTester {
 				"B-:";
 		assertEquals(expected, board.toString());
 		assertEquals(1, whitePawn.moveCounter());
-
+		
 		move.revertOnBoard(board);
 		expected = 
 				"   ┌───┬───┬───┐\n" + 
@@ -65,7 +66,7 @@ public class MoveTester {
 		assertTrue(move.isCapturing());
 		assertEquals("Pa2-xc2", move.notation());
 		assertEquals("Pa2-xc2", move.toString());
-
+		
 		move.executeOnBoard(board);
 		expected = 
 				"   ┌───┬───┬───┐\n" + 
@@ -80,10 +81,8 @@ public class MoveTester {
 				"B-:";
 		assertEquals(expected, board.toString());
 		assertEquals(1, blackPawn.moveCounter());
-
-		System.out.println(board);
+		
 		move.revertOnBoard(board);
-		System.out.println(board);
 		expected = 
 				"   ┌───┬───┬───┐\n" + 
 				" 3 │   │-K │   │\n" +

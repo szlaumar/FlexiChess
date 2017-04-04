@@ -25,56 +25,37 @@ public class King extends ChessPiece {
 
     public List<Move> validMoves() {
         List<Move> list = new ArrayList<>();
-        PieceMoveVisitor visitor = new PieceMoveVisitor();
-        Square square;
+        Square newSquare;
+        Move move;
 
-        for (Move move : allMoves()) {
-            square = move.acceptToPosition(visitor);
+        for (int i = -1; i < 2; i++) {
+            for (int j = -1; j < 2; j++) {
+                if ((i == 0 && j == 0))
+                    continue;
 
-            if (board().isEmptyAt(square) || (board().pieceAt(square).color() == color().opposite()
-                    && board().pieceAt(square).letter() != 'K'))
-                list.add(move);
+                newSquare = new Square((char) (position().column + i), position().row + j);
+                move = isMoveToSquareValid(newSquare);
+                if (move != null)
+                    list.add(move);
+            }
         }
 
         return list;
     }
 
-    public List<Move> allMoves() {
-        List<Move> list = new ArrayList<>();
+    /**
+     * Checks if the move to the given square is valid.
+     *
+     * @return The move instance if it is valid move, NULL if not valid move.
+     */
+    private Move isMoveToSquareValid(Square square) {
+        if (!board().isInsideBoard(square) || isInCheck(square))
+            return null;
+        if (!board().isEmptyAt(square) && ((board().pieceAt(square).color() == color().opposite()
+                && board().pieceAt(square).letter() == 'K') || board().pieceAt(square).color() == color()))
+            return null;
 
-        for (int i = -1; i < 2; i++)
-            for (int j = -1; j < 2; j++)
-                addMoveToList(i, j, list);
-
-        return list;
-    }
-
-    public List<Move> checkAllMoves() {
-        List<Move> list = new ArrayList<>();
-
-        for (int i = -1; i < 2; i++)
-            for (int j = -1; j < 2; j++)
-                checkAddMoveToList(i, j, list);
-
-        return list;
-    }
-
-    private void addMoveToList(int i, int j, List<Move> list) {
-        Square newSquare = new Square((char)(position().column + i), position().row + j);
-
-        if ((i == 0 && j == 0) || !board().isInsideBoard(newSquare) || isInCheck(newSquare))
-            return;
-
-        list.add(new SimpleMove(this, newSquare));
-    }
-
-    private void checkAddMoveToList(int i, int j, List<Move> list) {
-        Square newSquare = new Square((char)(position().column + i), position().row + j);
-
-        if ((i == 0 && j == 0) || !board().isInsideBoard(newSquare))
-            return;
-
-        list.add(new SimpleMove(this, newSquare));
+        return new SimpleMove(this, square);
     }
 
     public boolean isInCheck(Square validatePosition) {
@@ -92,10 +73,18 @@ public class King extends ChessPiece {
     @Override
     public List<Square> threatens() {
         List<Square> list = new ArrayList<>();
-        PieceMoveVisitor visitor = new PieceMoveVisitor();
+        Square newSquare;
 
-        for (Move move : checkAllMoves())
-                list.add(move.acceptToPosition(visitor));
+        for (int i = -1; i < 2; i++) {
+            for (int j = -1; j < 2; j++) {
+                newSquare = new Square((char) (position().column + i), position().row + j);
+
+                if ((i == 0 && j == 0) || !board().isInsideBoard(newSquare)
+                        || (!board().isEmptyAt(newSquare) && board().pieceAt(newSquare).color() == color()))
+                    continue;
+                list.add(newSquare);
+            }
+        }
 
         return list;
     }
