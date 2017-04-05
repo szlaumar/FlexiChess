@@ -326,12 +326,9 @@ public class ChessBoard {
      * @return  Král dané barvy
      */
     public King king(ChessPiece.Color color) {
-        ChessPieceVisitor<King> visitor = new HandleChessPieceVisitor();
-
-        allPieces.contains(new King(this, color));
         for (ChessPiece piece : allPieces) {
             if (piece.equals(new King(this, color)))
-                return piece.accept(visitor);
+                return (King) piece;
         }
 
         throw new IllegalStateException(color.toString() + " King not found");
