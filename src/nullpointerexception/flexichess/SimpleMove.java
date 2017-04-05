@@ -74,6 +74,11 @@ public class SimpleMove implements Move{
         piece.decrementMoveCounter();
     }
 
+    /**
+     * Has to be called during the state when the move is executed.
+     *
+     * @return
+     */
     public boolean isCapturing(){
         return !piece.board().isEmptyAt(to.column, to.row)
                 && piece.board().pieceAt(to).color() == piece.color().opposite();
