@@ -1,5 +1,6 @@
 package nullpointerexception.flexichess.game;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -66,7 +67,8 @@ public class SimpleMove implements Move{
         piece.decrementMoveCounter();
 
         if (capturing) {
-            ChessPiece capturedPiece = board.capturedPieces(piece.color().opposite()).remove(board.capturedPieces().size() - 1);
+            List<ChessPiece> list = board.capturedPieces(piece.color().opposite());
+            ChessPiece capturedPiece = list.remove(list.size() - 1);
             board.removeCapturedPiece();
             board.putPiece(to.column, to.row, capturedPiece);
         }

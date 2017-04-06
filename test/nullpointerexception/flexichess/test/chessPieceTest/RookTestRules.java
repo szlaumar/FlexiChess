@@ -1,6 +1,7 @@
 package nullpointerexception.flexichess.test.chessPieceTest;
 
 import nullpointerexception.flexichess.classic.Bishop;
+import nullpointerexception.flexichess.classic.Pawn;
 import nullpointerexception.flexichess.classic.Rook;
 import nullpointerexception.flexichess.game.*;
 
@@ -19,8 +20,9 @@ public class RookTestRules extends ChessGameRules {
 
         // Rook Test
         new Rook(board, ChessPiece.Color.WHITE, 'd', 3);
-        new King(board, ChessPiece.Color.BLACK, 'd', 7);
-        new King(board, ChessPiece.Color.WHITE, 'g', 3);
+        new King(board, ChessPiece.Color.WHITE, 'd', 1);
+        new Rook(board, ChessPiece.Color.BLACK, 'd', 7);
+        new Pawn(board, ChessPiece.Color.BLACK, 'g', 3);
 
     }
 

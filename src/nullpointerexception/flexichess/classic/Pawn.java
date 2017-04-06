@@ -92,7 +92,7 @@ public class Pawn extends ChessPiece {
             direction = 2;
 
         Square newPosition = new Square(position().column, position().row + direction);
-        if (canGoStraight() != null && moveCounter() == 0 && board().isInsideBoard(newPosition))
+        if (canGoStraight() != null && moveCounter() == 0 && board().isInsideBoard(newPosition) && board().isEmptyAt(newPosition))
             return newPosition;
 
         return null;

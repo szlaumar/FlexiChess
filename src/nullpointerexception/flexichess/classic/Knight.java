@@ -27,11 +27,6 @@ public class Knight extends ChessPiece {
     }
 
     @Override
-    public List<Move> validMoves() {
-        return Collections.emptyList();
-    }
-
-    @Override
     public List<Square> threatens() {
         if (isOffBoard())
             throw new IllegalStateException("Piece is off board.");

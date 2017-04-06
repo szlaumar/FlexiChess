@@ -23,31 +23,6 @@ public class King extends ChessPiece {
         return false;
     }
 
-//    /**
-//     * Returns list of moves which are possible to  carry out at this state.
-//     *
-//     * @return
-//     */
-//    public List<Move> validMoves() {
-//        List<Move> list = new ArrayList<>();
-//        Square newSquare;
-//        Move move;
-//
-//        for (int i = -1; i < 2; i++) {
-//            for (int j = -1; j < 2; j++) {
-//                newSquare = new Square((char) (position().column + i), position().row + j);
-//                if ((i == 0 && j == 0))
-//                    continue;
-//
-//                move = isMoveToSquareValid(newSquare);
-//                if (move != null)
-//                    list.add(move);
-//            }
-//        }
-//
-//        return list;
-//    }
-
     /**
      * Returns list of squares where the chess piece could potentially capture a enemy piece.
      *
@@ -90,12 +65,12 @@ public class King extends ChessPiece {
     /**
      * Checks if the King would be in Check on that particular position.
      *
-     * @param validatePosition  Position to be checked
+     * @param kingPosition  Position to be checked
      * @return
      */
-    private boolean isInCheck(Square validatePosition) {
+    private boolean isInCheck(Square kingPosition) {
         for (Square square : this.board().threatenedBy(color().opposite()))
-            if (validatePosition.equals(square))
+            if (kingPosition.equals(square))
                 return true;
 
         return false;

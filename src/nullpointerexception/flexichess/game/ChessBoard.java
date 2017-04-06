@@ -304,13 +304,10 @@ public class ChessBoard {
     }
 
     public List<Move> validMovesFor(ChessPiece.Color color) {
+        if (king(color).isInCheck())
+            return movesToFreeKingFromCheck(color);
+
         List<Move> list = new ArrayList<>();
-
-        if (king(color).isInCheck()) {
-            list.addAll(king(color).validMoves());
-            return list;
-        }
-
         for (ChessPiece piece : onBoardPieces(color))
             list.addAll(piece.validMoves());
 
@@ -318,19 +315,57 @@ public class ChessBoard {
     }
 
     /**
+     * Get moves which will free King of given color from the current check state.
+     * Should be called only if King of given color is in check
+     *
+     * @param color
+     * @return  List of moves to perform in order to get out of check.
+     */
+    private List<Move> movesToFreeKingFromCheck(ChessPiece.Color color) {
+        List<Move> list = new ArrayList<>();
+        King king = king(color);
+        ChessPiece enemyPiece = null;
+
+        // kind frees himself
+        list.addAll(king(color).validMoves());
+
+        // check for the enemy piece threatening king
+        for (ChessPiece piece : onBoardPieces(color.opposite()))
+            for (Square square : piece.threatens())
+                if (square.equals(king.position())) {
+                    enemyPiece = piece;
+                    break;
+                }
+
+        // look for my piece to capture the enemy piece, except king
+        if (enemyPiece != null) {
+            for (ChessPiece piece : onBoardPieces(color)) {
+                if (piece.equals(king))
+                    continue;
+                for (Square square : piece.threatens())
+                    if (square.equals(enemyPiece.position()))
+                        list.add(new SimpleMove(piece, enemyPiece.position()));
+            }
+        }
+
+        return list;
+    }
+
+    /**
      *  Král dané barvy
-     *  Throws IllegalStateException if chess piece not found.
+//     *  Throws IllegalStateException if chess piece not found.
      *
      * @param color
      * @return  Král dané barvy
      */
     public King king(ChessPiece.Color color) {
         for (ChessPiece piece : allPieces) {
-            if (piece.equals(new King(this, color)))
+            if (piece.getClass() == King.class && piece.color() == color)
                 return (King) piece;
         }
 
-        throw new IllegalStateException(color.toString() + " King not found");
+//        throw new IllegalStateException(color.toString() + " King not found");
+        return null;
     }
 
     public void removeCapturedPiece() {

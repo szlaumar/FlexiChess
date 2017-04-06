@@ -18,7 +18,7 @@ public class ChessPieceTester {
     private String expected;
 
     @Test
-    public void bishopGameTest() {
+    public void bishopThreatensGameTest() {
         ChessBoard board = new TestChessBoard(new BishopTestRules());
 
 //        System.out.println(board);
@@ -27,7 +27,7 @@ public class ChessPieceTester {
         expected =  "   ┌───┬───┬───┬───┬───┬───┬───┬───┐\n" +
                     " 8 │   │   │   │   │   │   │   │   │\n" +
                     "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
-                    " 7 │   │   │   │   │   │   │   │   │\n" +
+                    " 7 │   │   │   │-R │   │   │   │   │\n" +
                     "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
                     " 6 │-  │   │   │   │   │   │   │   │\n" +
                     "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
@@ -37,7 +37,7 @@ public class ChessPieceTester {
                     "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
                     " 3 │   │   │   │+B │   │   │   │   │\n" +
                     "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
-                    " 2 │   │   │-  │   │+K │   │   │   │\n" +
+                    " 2 │   │   │-  │+K │+P │   │   │   │\n" +
                     "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
                     " 1 │   │-  │   │   │   │   │   │   │\n" +
                     "   └───┴───┴───┴───┴───┴───┴───┴───┘\n" +
@@ -48,7 +48,37 @@ public class ChessPieceTester {
     }
 
     @Test
-    public void rookGameTest() {
+    public void bishopValidMovesGameTest() {
+        ChessBoard board = new TestChessBoard(new BishopTestRules());
+
+//        System.out.println(board);
+        showValidMovesTravelPath(board, board.pieceAt('d', 3), false);
+
+        expected =  "   ┌───┬───┬───┬───┬───┬───┬───┬───┐\n" +
+                    " 8 │   │   │   │   │   │   │   │   │\n" +
+                    "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
+                    " 7 │   │   │   │-R │   │   │   │   │\n" +
+                    "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
+                    " 6 │   │   │   │   │   │   │   │   │\n" +
+                    "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
+                    " 5 │   │   │   │   │   │   │   │   │\n" +
+                    "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
+                    " 4 │   │   │   │   │-P │   │   │   │\n" +
+                    "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
+                    " 3 │   │   │   │+B │   │   │   │   │\n" +
+                    "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
+                    " 2 │   │   │   │+K │+P │   │   │   │\n" +
+                    "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
+                    " 1 │   │   │   │   │   │   │   │   │\n" +
+                    "   └───┴───┴───┴───┴───┴───┴───┴───┘\n" +
+                    "     a   b   c   d   e   f   g   h \n" +
+                    "W+:\n" +
+                    "B-:";
+        assertEquals(expected, board.toString());
+    }
+
+    @Test
+    public void rookThreatensGameTest() {
         ChessBoard board = new TestChessBoard(new RookTestRules());
 
 //        System.out.println(board);
@@ -64,11 +94,11 @@ public class ChessPieceTester {
                     "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
                     " 4 │   │   │   │-  │   │   │   │   │\n" +
                     "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
-                    " 3 │-  │-  │-  │+R │-  │-  │+K │   │\n" +
+                    " 3 │-  │-  │-  │+R │-  │-  │-  │   │\n" +
                     "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
                     " 2 │   │   │   │-  │   │   │   │   │\n" +
                     "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
-                    " 1 │   │   │   │-  │   │   │   │   │\n" +
+                    " 1 │   │   │   │+K │   │   │   │   │\n" +
                     "   └───┴───┴───┴───┴───┴───┴───┴───┘\n" +
                     "     a   b   c   d   e   f   g   h \n" +
                     "W+:\n" +
@@ -77,7 +107,37 @@ public class ChessPieceTester {
     }
 
     @Test
-    public void queenGameTest() {
+    public void rookValidMovesGameTest() {
+        ChessBoard board = new TestChessBoard(new RookTestRules());
+
+//        System.out.println(board);
+        showValidMovesTravelPath(board, board.pieceAt('d', 3), false);
+
+        expected =  "   ┌───┬───┬───┬───┬───┬───┬───┬───┐\n" +
+                    " 8 │   │   │   │   │   │   │   │   │\n" +
+                    "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
+                    " 7 │   │   │   │-  │   │   │   │   │\n" +
+                    "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
+                    " 6 │   │   │   │-  │   │   │   │   │\n" +
+                    "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
+                    " 5 │   │   │   │-  │   │   │   │   │\n" +
+                    "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
+                    " 4 │   │   │   │-  │   │   │   │   │\n" +
+                    "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
+                    " 3 │   │   │   │+R │   │   │-P │   │\n" +
+                    "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
+                    " 2 │   │   │   │-  │   │   │   │   │\n" +
+                    "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
+                    " 1 │   │   │   │+K │   │   │   │   │\n" +
+                    "   └───┴───┴───┴───┴───┴───┴───┴───┘\n" +
+                    "     a   b   c   d   e   f   g   h \n" +
+                    "W+:\n" +
+                    "B-:";
+        assertEquals(expected, board.toString());
+    }
+
+    @Test
+    public void queenThreatensGameTest() {
         ChessBoard board = new TestChessBoard(new QueenTestRules());
 
 //        System.out.println(board);
@@ -97,7 +157,7 @@ public class ChessPieceTester {
                     "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
                     " 2 │   │   │-  │-  │+P │   │   │   │\n" +
                     "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
-                    " 1 │   │-  │   │-  │   │   │   │   │\n" +
+                    " 1 │   │-  │   │+K │   │   │   │   │\n" +
                     "   └───┴───┴───┴───┴───┴───┴───┴───┘\n" +
                     "     a   b   c   d   e   f   g   h \n" +
                     "W+:\n" +
@@ -106,7 +166,37 @@ public class ChessPieceTester {
     }
 
     @Test
-    public void knightGameTest() {
+    public void queenValidMovesGameTest() {
+        ChessBoard board = new TestChessBoard(new QueenTestRules());
+
+//        System.out.println(board);
+        showValidMovesTravelPath(board, board.pieceAt('d', 3), false);
+
+        expected =  "   ┌───┬───┬───┬───┬───┬───┬───┬───┐\n" +
+                " 8 │   │   │   │   │   │   │   │   │\n" +
+                "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
+                " 7 │   │   │   │-  │   │   │   │   │\n" +
+                "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
+                " 6 │   │   │   │-  │   │   │   │   │\n" +
+                "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
+                " 5 │   │   │   │-  │   │   │   │   │\n" +
+                "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
+                " 4 │   │   │   │-  │-P │   │   │   │\n" +
+                "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
+                " 3 │   │   │   │+Q │   │   │+P │   │\n" +
+                "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
+                " 2 │   │   │   │-  │+P │   │   │   │\n" +
+                "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
+                " 1 │   │   │   │+K │   │   │   │   │\n" +
+                "   └───┴───┴───┴───┴───┴───┴───┴───┘\n" +
+                "     a   b   c   d   e   f   g   h \n" +
+                "W+:\n" +
+                "B-:";
+        assertEquals(expected, board.toString());
+    }
+
+    @Test
+    public void knightThreatensGameTest() {
         ChessBoard board = new TestChessBoard(new KnightTestRules());
 
 //        System.out.println(board);
@@ -134,13 +224,49 @@ public class ChessPieceTester {
         assertEquals(expected, board.toString());
     }
 
+    @Test
+    public void knightValidMovesGameTest() {
+        ChessBoard board = new TestChessBoard(new KnightTestRules());
+
+//        System.out.println(board);
+        showValidMovesTravelPath(board, board.pieceAt('b', 3), false);
+
+        expected =  "   ┌───┬───┬───┬───┬───┬───┬───┬───┐\n" +
+                " 8 │   │   │   │   │   │   │   │   │\n" +
+                "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
+                " 7 │   │   │   │   │   │   │   │   │\n" +
+                "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
+                " 6 │   │   │   │   │   │   │   │   │\n" +
+                "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
+                " 5 │-  │   │-  │   │   │   │   │   │\n" +
+                "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
+                " 4 │   │   │   │-  │   │   │   │   │\n" +
+                "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
+                " 3 │   │+S │   │   │   │   │   │   │\n" +
+                "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
+                " 2 │   │   │   │-  │   │   │   │   │\n" +
+                "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
+                " 1 │-  │   │+P │   │   │   │   │   │\n" +
+                "   └───┴───┴───┴───┴───┴───┴───┴───┘\n" +
+                "     a   b   c   d   e   f   g   h \n" +
+                "W+:\n" +
+                "B-:";
+        assertEquals(expected, board.toString());
+    }
+
 
 
     // testing helper methods
-    private void showThreatensTravelPath(ChessBoard board, ChessPiece piece, boolean print) {
-        for (Square s : piece.threatens()) {
+    private void showThreatensTravelPath (ChessBoard board, ChessPiece piece, boolean print) {
+        for (Square s : piece.threatens())
             new MoveIndicator(board, ChessPiece.Color.BLACK, s.column, s.row);
-        }
+
+        if (print)
+            System.out.println(board);
+    }
+    private void showValidMovesTravelPath(ChessBoard board, ChessPiece piece, boolean print) {
+        for (Move m : piece.validMoves())
+            new MoveIndicator(board, ChessPiece.Color.BLACK, ((SimpleMove)m).to().column, ((SimpleMove)m).to().row);
 
         if (print)
             System.out.println(board);

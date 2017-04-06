@@ -20,10 +20,11 @@ public class QueenTestRules extends ChessGameRules {
 
         // Queen Test
         new Queen(board, ChessPiece.Color.WHITE, 'd', 3);
-        new Pawn(board, ChessPiece.Color.BLACK, 'd', 7);
-        new Pawn(board, ChessPiece.Color.WHITE, 'g', 3);
-        new Pawn(board, ChessPiece.Color.BLACK, 'e', 4);
-        new Pawn(board, ChessPiece.Color.WHITE, 'e', 2);
+        new King (board, ChessPiece.Color.WHITE, 'd', 1);
+        new Rook (board, ChessPiece.Color.BLACK, 'd', 7);
+        new Pawn (board, ChessPiece.Color.WHITE, 'g', 3);
+        new Pawn (board, ChessPiece.Color.BLACK, 'e', 4);
+        new Pawn (board, ChessPiece.Color.WHITE, 'e', 2);
 
     }
 

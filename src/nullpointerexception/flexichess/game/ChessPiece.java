@@ -219,11 +219,12 @@ public abstract class ChessPiece {
             move = new SimpleMove(this, square);
             move.executeOnBoard(board());
 
-            // if it makes king to become in check, revert the move
-            if (board().king(color()).isInCheck())
-                move.revertOnBoard(board());
-            else
+            // if it makes king to become in check, not valid move
+            if (board().king(color()) == null || !board().king(color()).isInCheck())
                 list.add(move);
+
+            // revert the move
+            move.revertOnBoard(board());
         }
 
         return list;
