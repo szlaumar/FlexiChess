@@ -10,28 +10,24 @@ import java.util.*;
  * @author Szlauer Martin
  */
 public class ChessBoard {
-    final private ChessPiece[][] m_board;
-    final private Stack<ChessPiece> capturedPieces;
-    final private HashSet<ChessPiece> allPieces;
-    final private LinkedList<Move> playedMoves;
+    private final ChessPiece[][] m_board;
+    private final ChessGameRules rules;
+    private final Stack<ChessPiece> capturedPieces;
+    private final HashSet<ChessPiece> allPieces;
+    private final LinkedList<Move> playedMoves;
     
     /**
-     * Vytvoří šachovnici o zadaném počtu sloupců a řádků.
-     * 
-     * @param column    Number of m_board columns.
-     * @param row       Number of m_board rows.
+     * Vytvoří šachovnici podle zadaných pravidel.
+     *
+     * @param rules Pravidla pro hru
      */
-    public ChessBoard(int column, int row) {
-        m_board = new ChessPiece[column][row];
+    public ChessBoard(ChessGameRules rules) {
+        m_board = new ChessPiece[rules.boardColumns][rules.boardRows];
         capturedPieces = new Stack<>();
         allPieces = new HashSet<>();
         playedMoves = new LinkedList<>();
-    }
-
-    public ChessBoard(int columns, int rows, Square whiteKingPos, Square blackKingPos) {
-        this(columns, rows);
-        new King(this, ChessPiece.Color.WHITE, whiteKingPos.column, whiteKingPos.row);
-        new King(this, ChessPiece.Color.BLACK, blackKingPos.column, blackKingPos.row);
+        this.rules = rules;
+        rules.setUpPieces(this);
     }
 
     /**
@@ -40,7 +36,7 @@ public class ChessBoard {
      * @return Number of columns.
      */    
     public int columns(){
-        return m_board.length;
+        return rules.boardColumns;
     }
     
     /**
@@ -49,7 +45,7 @@ public class ChessBoard {
      * @return Number of rows.
      */
     public int rows(){
-        return m_board[0].length;
+        return rules.boardRows;
     }
 
     public LinkedList<Move> getPlayedMoves() {
