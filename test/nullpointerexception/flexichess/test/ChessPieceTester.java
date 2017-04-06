@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import nullpointerexception.flexichess.game.*;
 import nullpointerexception.flexichess.test.chessPieceTest.BishopTestRules;
+import nullpointerexception.flexichess.test.chessPieceTest.QueenTestRules;
 import nullpointerexception.flexichess.test.chessPieceTest.RookTestRules;
 import org.junit.Test;
 
@@ -75,7 +76,34 @@ public class ChessPieceTester {
         assertEquals(expected, board.toString());
     }
 
+    @Test
+    public void queenGameTest() {
+        ChessBoard board = new TestChessBoard(new QueenTestRules());
 
+        System.out.println(board);
+        showThreatensTravelPath(board, board.pieceAt('d', 3), true);
+        expected =  "   ┌───┬───┬───┬───┬───┬───┬───┬───┐\n" +
+                    " 8 │   │   │   │   │   │   │   │   │\n" +
+                    "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
+                    " 7 │   │   │   │-  │   │   │   │   │\n" +
+                    "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
+                    " 6 │-  │   │   │-  │   │   │   │   │\n" +
+                    "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
+                    " 5 │   │-  │   │-  │   │   │   │   │\n" +
+                    "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
+                    " 4 │   │   │-  │-  │-  │   │   │   │\n" +
+                    "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
+                    " 3 │-  │-  │-  │+Q │-  │-  │+P │   │\n" +
+                    "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
+                    " 2 │   │   │-  │-  │+P │   │   │   │\n" +
+                    "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
+                    " 1 │   │-  │   │-  │   │   │   │   │\n" +
+                    "   └───┴───┴───┴───┴───┴───┴───┴───┘\n" +
+                    "     a   b   c   d   e   f   g   h \n" +
+                    "W+:\n" +
+                    "B-:";
+        assertEquals(expected, board.toString());
+    }
 
 
 
