@@ -1,4 +1,4 @@
-package nullpointerexception.flexichess;
+package nullpointerexception.flexichess.game;
 
 /**
  * Představuje jeden čtverec šachovnice.

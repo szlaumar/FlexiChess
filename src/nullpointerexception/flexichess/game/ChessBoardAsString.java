@@ -1,4 +1,4 @@
-package nullpointerexception.flexichess;
+package nullpointerexception.flexichess.game;
 
 /**
  * Stará se o diagnostický výpis šachovnice do řetězce.

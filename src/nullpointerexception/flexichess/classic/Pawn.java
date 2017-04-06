@@ -1,4 +1,6 @@
-package nullpointerexception.flexichess;
+package nullpointerexception.flexichess.classic;
+
+import nullpointerexception.flexichess.game.*;
 
 import java.util.ArrayList;
 import java.util.Collections;

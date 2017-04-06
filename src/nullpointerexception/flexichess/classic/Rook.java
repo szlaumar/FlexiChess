@@ -1,21 +1,23 @@
-package nullpointerexception.flexichess;
+package nullpointerexception.flexichess.classic;
+
+import nullpointerexception.flexichess.game.*;
 
 import java.util.Collections;
 import java.util.List;
 
-public class Knight extends ChessPiece {
+public class Rook extends ChessPiece {
 
-    public Knight(ChessBoard board, Color color) {
+    public Rook(ChessBoard board, Color color) {
         super(board, color);
     }
 
-    public Knight(ChessBoard board, Color color, char column, int row) {
+    public Rook(ChessBoard board, Color color, char column, int row) {
         super(board, color, column, row);
     }
 
     @Override
     public char letter() {
-        return 'S';
+        return 'R';
     }
 
     @Override

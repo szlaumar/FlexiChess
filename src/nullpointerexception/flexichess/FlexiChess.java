@@ -1,52 +1,59 @@
 package nullpointerexception.flexichess;
 
-import nullpointerexception.flexichess.builders.Demichess;
-import nullpointerexception.flexichess.builders.Microchess;
-import nullpointerexception.flexichess.builders.Regularchess;
-import nullpointerexception.flexichess.builders.Silverman4x4;
-import nullpointerexception.flexichess.builders.Silverman4x5;
+import nullpointerexception.flexichess.classic.ClassicChessRules;
+import nullpointerexception.flexichess.game.ChessBoard;
+import nullpointerexception.flexichess.game.SimpleMove;
+import nullpointerexception.flexichess.game.Square;
 
-/**
- * 
- * @author Drabek Jan
- * @author Stastny Martin
- * @author Szlauer Martin
- */
 public class FlexiChess {
+	public static void main(String[] args) {
+		ChessBoard board = new ChessBoard(new ClassicChessRules());
 
-    public static void main(String[] args) {
-        
-        System.out.println("FlexiChess v4.0\n");
-
-        
-        System.out.println("Demichess:");
-        Demichess demichess = new Demichess();
-        ChessBoard boardDemi = demichess.board();
-        System.out.print(boardDemi.toString() + "\n");
-        
-        
-        System.out.println("\nMicrochess:");
-        Microchess microchess = new Microchess();
-        ChessBoard boardMicro = microchess.board();
-        System.out.print(boardMicro.toString() + "\n");
-        
-        
-        System.out.println("\nRegularchess:");
-        Regularchess regularchess = new Regularchess();
-        ChessBoard boardReg = regularchess.board();
-        System.out.print(boardReg.toString() + "\n");
-        
-        
-        System.out.println("\nSilverman4x4:");
-        Silverman4x4 silverman4x4 = new Silverman4x4();
-        ChessBoard boardSilver4x4 = silverman4x4.board();
-        System.out.print(boardSilver4x4.toString() + "\n");
-        
-        
-        System.out.println("\nSilverman4x5:");
-        Silverman4x5 silverman4x5 = new Silverman4x5();
-        ChessBoard boardSilver4x5 = silverman4x5.board();
-        System.out.print(boardSilver4x5.toString() + "\n");
-    }
-    
+		new SimpleMove(board.pieceAt('e', 2), new Square('e', 4)).executeOnBoard(board);
+		System.out.println(board);
+		new SimpleMove(board.pieceAt('e', 7), new Square('e', 5)).executeOnBoard(board);
+		System.out.println(board);
+		new SimpleMove(board.pieceAt('g', 1), new Square('f', 3)).executeOnBoard(board);
+		System.out.println(board);
+		new SimpleMove(board.pieceAt('d', 7), new Square('d', 6)).executeOnBoard(board);
+		System.out.println(board);
+		new SimpleMove(board.pieceAt('f', 1), new Square('c', 4)).executeOnBoard(board);
+		System.out.println(board);
+		new SimpleMove(board.pieceAt('f', 7), new Square('f', 5)).executeOnBoard(board);
+		System.out.println(board);
+		new SimpleMove(board.pieceAt('d', 2), new Square('d', 4)).executeOnBoard(board);
+		System.out.println(board);
+		new SimpleMove(board.pieceAt('g', 8), new Square('f', 6)).executeOnBoard(board);
+		System.out.println(board);
+		new SimpleMove(board.pieceAt('b', 1), new Square('c', 3)).executeOnBoard(board);
+		System.out.println(board);
+		new SimpleMove(board.pieceAt('e', 5), new Square('d', 4)).executeOnBoard(board);
+		System.out.println(board);
+		new SimpleMove(board.pieceAt('d', 1), new Square('d', 4)).executeOnBoard(board);
+		System.out.println(board);
+		new SimpleMove(board.pieceAt('c', 8), new Square('d', 7)).executeOnBoard(board);
+		System.out.println(board);
+		new SimpleMove(board.pieceAt('f', 3), new Square('g', 5)).executeOnBoard(board);
+		System.out.println(board);
+		new SimpleMove(board.pieceAt('b', 8), new Square('c', 6)).executeOnBoard(board);
+		System.out.println(board);
+		new SimpleMove(board.pieceAt('c', 4), new Square('f', 7)).executeOnBoard(board);
+		System.out.println(board);
+		new SimpleMove(board.pieceAt('e', 8), new Square('e', 7)).executeOnBoard(board);
+		System.out.println(board);
+		new SimpleMove(board.pieceAt('d', 4), new Square('f', 6)).executeOnBoard(board);
+		System.out.println(board);
+		new SimpleMove(board.pieceAt('e', 7), new Square('f', 6)).executeOnBoard(board);
+		System.out.println(board);
+		new SimpleMove(board.pieceAt('c', 3), new Square('d', 5)).executeOnBoard(board);
+		System.out.println(board);
+		new SimpleMove(board.pieceAt('f', 6), new Square('e', 5)).executeOnBoard(board);
+		System.out.println(board);
+		new SimpleMove(board.pieceAt('g', 5), new Square('f', 3)).executeOnBoard(board);
+		System.out.println(board);
+		new SimpleMove(board.pieceAt('e', 5), new Square('e', 4)).executeOnBoard(board);
+		System.out.println(board);
+		new SimpleMove(board.pieceAt('d', 5), new Square('c', 3)).executeOnBoard(board);
+		System.out.println(board);
+	}
 }

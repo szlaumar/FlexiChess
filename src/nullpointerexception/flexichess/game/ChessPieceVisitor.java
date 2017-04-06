@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package nullpointerexception.flexichess;
+package nullpointerexception.flexichess.game;
+
+import nullpointerexception.flexichess.classic.*;
 
 /**
  * @author Drabek Jan
