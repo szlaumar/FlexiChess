@@ -47,13 +47,17 @@ public class Knight extends ChessPiece {
 
     private List<Square> checkMovesInDirection(Direction direction) {
         List<Square> list = new ArrayList<>();
-        Square square = position();
 
+        Square square = position();
         square = square.step(2 * direction.colStep, direction.rowStep);
-        if (board().isEmptyAt(square) || board().pieceAt(square).color() == color().opposite())
+        if (board().isInsideBoard(square)
+                && (board().isEmptyAt(square) || board().pieceAt(square).color() == color().opposite()))
             list.add(square);
+
+        square = position();
         square = square.step(direction.colStep, 2 * direction.rowStep);
-        if (board().isEmptyAt(square) || board().pieceAt(square).color() == color().opposite())
+        if (board().isInsideBoard(square)
+                && (board().isEmptyAt(square) || board().pieceAt(square).color() == color().opposite()))
             list.add(square);
 
         return list;
