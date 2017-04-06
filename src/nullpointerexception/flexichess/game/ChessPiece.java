@@ -207,9 +207,27 @@ public abstract class ChessPiece {
     }
     
     public abstract boolean canBeCaptured();
-    public abstract List<Move> validMoves();
     public abstract List<Square> threatens();
     public abstract <T> T accept(ChessPieceVisitor<T> visitor);
+
+    public List<Move> validMoves() {
+        List<Move> list = new ArrayList<>();
+        Move move;
+
+        for (Square square : threatens()) {
+            // try to make the move
+            move = new SimpleMove(this, square);
+            move.executeOnBoard(board());
+
+            // if it makes king to become in check, revert the move
+            if (board().king(color()).isInCheck())
+                move.revertOnBoard(board());
+            else
+                list.add(move);
+        }
+
+        return list;
+    }
     
     public int moveCounter(){
         return moves;
