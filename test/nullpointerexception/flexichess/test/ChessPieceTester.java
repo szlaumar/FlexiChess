@@ -23,7 +23,6 @@ public class ChessPieceTester {
 
 //        System.out.println(board);
         showThreatensTravelPath(board, board.pieceAt('d', 3), false);
-//        new SimpleMove(board.pieceAt('e', 2), new Square('e', 4)).executeOnBoard(board);
 
         expected =  "   ┌───┬───┬───┬───┬───┬───┬───┬───┐\n" +
                     " 8 │   │   │   │   │   │   │   │   │\n" +
@@ -81,8 +80,8 @@ public class ChessPieceTester {
     public void queenGameTest() {
         ChessBoard board = new TestChessBoard(new QueenTestRules());
 
-        System.out.println(board);
-        showThreatensTravelPath(board, board.pieceAt('d', 3), true);
+//        System.out.println(board);
+        showThreatensTravelPath(board, board.pieceAt('d', 3), false);
         expected =  "   ┌───┬───┬───┬───┬───┬───┬───┬───┐\n" +
                     " 8 │   │   │   │   │   │   │   │   │\n" +
                     "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
@@ -110,8 +109,8 @@ public class ChessPieceTester {
     public void knightGameTest() {
         ChessBoard board = new TestChessBoard(new KnightTestRules());
 
-        System.out.println(board);
-        showThreatensTravelPath(board, board.pieceAt('b', 3), true);
+//        System.out.println(board);
+        showThreatensTravelPath(board, board.pieceAt('b', 3), false);
         expected =  "   ┌───┬───┬───┬───┬───┬───┬───┬───┐\n" +
                     " 8 │   │   │   │   │   │   │   │   │\n" +
                     "   ├───┼───┼───┼───┼───┼───┼───┼───┤\n" +
