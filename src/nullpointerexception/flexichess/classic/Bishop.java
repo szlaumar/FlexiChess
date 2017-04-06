@@ -38,10 +38,10 @@ public class Bishop extends ChessPiece {
             throw new IllegalStateException("Piece is off board.");
 
         List<Square> list = new ArrayList<>();
-        list.addAll(checkMovesInDirection(Direction.DOWN_LEFT));
         list.addAll(checkMovesInDirection(Direction.UP_LEFT));
-        list.addAll(checkMovesInDirection(Direction.DOWN_RIGHT));
         list.addAll(checkMovesInDirection(Direction.UP_RIGHT));
+        list.addAll(checkMovesInDirection(Direction.DOWN_LEFT));
+        list.addAll(checkMovesInDirection(Direction.DOWN_RIGHT));
 
         return list;
     }

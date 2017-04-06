@@ -32,18 +32,19 @@ public class Queen extends ChessPiece {
     }
 
     @Override
-    public List<Square> threatens() {if (isOffBoard())
-        throw new IllegalStateException("Piece is off board.");
+    public List<Square> threatens() {
+        if (isOffBoard())
+            throw new IllegalStateException("Piece is off board.");
 
         List<Square> list = new ArrayList<>();
         list.addAll(checkMovesInDirection(Direction.UP));
         list.addAll(checkMovesInDirection(Direction.DOWN));
         list.addAll(checkMovesInDirection(Direction.LEFT));
         list.addAll(checkMovesInDirection(Direction.RIGHT));
-        list.addAll(checkMovesInDirection(Direction.DOWN_LEFT));
         list.addAll(checkMovesInDirection(Direction.UP_LEFT));
-        list.addAll(checkMovesInDirection(Direction.DOWN_RIGHT));
         list.addAll(checkMovesInDirection(Direction.UP_RIGHT));
+        list.addAll(checkMovesInDirection(Direction.DOWN_LEFT));
+        list.addAll(checkMovesInDirection(Direction.DOWN_RIGHT));
 
         return list;
     }
