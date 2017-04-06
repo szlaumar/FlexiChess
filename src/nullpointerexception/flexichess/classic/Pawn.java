@@ -32,10 +32,10 @@ public class Pawn extends ChessPiece {
             throw new IllegalStateException("Piece is off board.");
 
         List<Square> list = new ArrayList<>();
-        if (goDiagonalLeft() != null)
-            list.add(goDiagonalLeft());
-        if (goDiagonalRight() != null)
-            list.add(goDiagonalRight());
+        if (threatensDiagonalLeft() != null)
+            list.add(threatensDiagonalLeft());
+        if (threatensDiagonalRight() != null)
+            list.add(threatensDiagonalRight());
 
         return list;
     }
@@ -84,14 +84,17 @@ public class Pawn extends ChessPiece {
      * @return  Square of the new position if possible to go there, null if not possible.
      */
     private Square canGoStraightBy2() {
-        int direction = - 2;
+        if (!board().rules().canPawnDoubleStep)
+            return null;
 
+        int direction = - 2;
         if (color() == Color.WHITE)
             direction = 2;
 
         Square newPosition = new Square(position().column, position().row + direction);
         if (canGoStraight() != null && moveCounter() == 0 && board().isInsideBoard(newPosition))
             return newPosition;
+
         return null;
     }
 
@@ -100,7 +103,7 @@ public class Pawn extends ChessPiece {
      *
      * @return  Square of the new position if possible to go there, null if not possible.
      */
-    private Square goDiagonalLeft() {
+    private Square threatensDiagonalLeft() {
         int direction = - 1;
 
         if (color() == Color.WHITE)
@@ -118,7 +121,7 @@ public class Pawn extends ChessPiece {
      * @return
      */
     private Square goDiagonalLeftValid() {
-        Square square = goDiagonalLeft();
+        Square square = threatensDiagonalLeft();
         if (square != null && !board().isEmptyAt(square) && board().pieceAt(square).color().opposite() == color()
                 && board().pieceAt(square).letter() != 'K')
             return square;
@@ -131,7 +134,7 @@ public class Pawn extends ChessPiece {
      *
      * @return  Square of the new position if possible to go there, null if not possible.
      */
-    private Square goDiagonalRight() {
+    private Square threatensDiagonalRight() {
         int direction = - 1;
 
         if (color() == Color.WHITE) {
@@ -151,7 +154,7 @@ public class Pawn extends ChessPiece {
      * @return
      */
     private Square goDiagonalRightValid() {
-        Square square = goDiagonalRight();
+        Square square = threatensDiagonalRight();
         if (square != null && !board().isEmptyAt(square) && board().pieceAt(square).color().opposite() == color()
                 && board().pieceAt(square).letter() != 'K')
             return square;

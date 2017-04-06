@@ -2,6 +2,7 @@ package nullpointerexception.flexichess.classic;
 
 import nullpointerexception.flexichess.game.*;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,7 +33,63 @@ public class Rook extends ChessPiece {
 
     @Override
     public List<Square> threatens() {
-        return Collections.emptyList();
+        if (isOffBoard())
+            throw new IllegalStateException("Piece is off board.");
+
+        List<Square> list = new ArrayList<>();
+        list.addAll(checkMovesInDirection(Direction.UP));
+        list.addAll(checkMovesInDirection(Direction.DOWN));
+        list.addAll(checkMovesInDirection(Direction.LEFT));
+        list.addAll(checkMovesInDirection(Direction.RIGHT));
+
+        return list;
+    }
+
+    /**
+     * Iterates through the squares int the given direction and returns a list of threatened squares.
+     *
+     * @param direction Direction to check squares.
+     * @return          List of threatened squares in given direction.
+     */
+    private List<Square> checkMovesInDirection(Direction direction) {
+        List<Square> list = new ArrayList<>();
+
+        Square square = position();
+        square = square.step(direction.colStep, direction.rowStep);
+
+        while (board().isInsideBoard(square)) {
+            if (board().isEmptyAt(square))
+                list.add(square);
+            else if (board().pieceAt(square).color() == color().opposite()) {
+                list.add(square);
+                break;
+            }
+            else
+                break;
+
+            square = square.step(direction.colStep, direction.rowStep);
+        }
+
+        return list;
+    }
+
+    private enum Direction {
+        UP   ( 0, 1),
+        DOWN ( 0,-1),
+        LEFT (-1, 0),
+        RIGHT( 1, 0);
+
+        /**
+         * Sign assigned to color for short printing.
+         */
+        public final int colStep;
+        public final int rowStep;
+
+        Direction(int colStep, int rowStep){
+            this.colStep = colStep;
+            this.rowStep = rowStep;
+        }
+
     }
 
     @Override

@@ -10,7 +10,7 @@ import java.util.*;
  * @author Szlauer Martin
  */
 public class ChessBoard {
-    private final ChessPiece[][] m_board;
+    protected final ChessPiece[][] m_board;
     private final ChessGameRules rules;
     private final Stack<ChessPiece> capturedPieces;
     private final HashSet<ChessPiece> allPieces;
@@ -48,9 +48,12 @@ public class ChessBoard {
         return rules.boardRows;
     }
 
-    public LinkedList<Move> getPlayedMoves() {
-        return playedMoves;
-    }
+    /**
+     * Vrátí pravidla použita pro tuto hru.
+     *
+     * @return  Rules used for this game.
+     */
+    public ChessGameRules rules() { return rules; }
 
     public void addPlayedMove(Move move) {
         playedMoves.add(move);

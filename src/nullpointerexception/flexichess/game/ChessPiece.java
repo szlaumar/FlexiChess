@@ -1,5 +1,8 @@
 package nullpointerexception.flexichess.game;
 
+import nullpointerexception.flexichess.classic.Queen;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
